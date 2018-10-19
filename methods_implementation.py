@@ -4,25 +4,28 @@ import csv
 import numpy as np
 
 # ----------------------- Least Squares using Gradient Descent ---------------------------
-def calculate_mse(e):
-    """Calculate the mse for vector e."""
-    return 1/2*np.mean(e**2)
+def compute_mse(y, tx, w):
+    """compute the loss by mse."""
+    e = y - tx.dot(w)
+    mse = e.dot(e) / (2 * len(e))
+    return mse
 
 def compute_gradient(y, tx, w):
     """Compute the gradient."""
     err = y - tx.dot(w)
     grad = -tx.T.dot(err) / len(err)
-    return grad, err
+    return grad
 
 def least_squares_GD(y, tx, initial_w, max_iters, gamma):
     """Gradient descent algorithm."""
     w = initial_w
     for _ in range(max_iters):
-        # compute loss, gradient
-        grad, err = compute_gradient(y, tx, w)
-        loss = calculate_mse(err)
+        # compute gradient
+        grad = compute_gradient(y, tx, w)
         # gradient w by descent update
         w = w - gamma * grad
+        # compute loss
+        loss = compute_mse(y, tx, w)
     return w, loss
 
 # ----------------------- Least Squares using Stochastic Gradient Descent ---------------------------
@@ -57,11 +60,6 @@ def batch_iter(y, tx, batch_size, num_batches=1, shuffle=True):
         if start_index != end_index:
             yield shuffled_y[start_index:end_index], shuffled_tx[start_index:end_index]
 
-def compute_loss(y, tx, w):
-    """Calculate the loss. Here we are using mse"""
-    e = y - tx.dot(w)
-    return calculate_mse(e)
-
 def least_squares_SGD(y, tx, initial_w, max_iters, gamma):
     """Stochastic gradient descent."""
     # Define parameters to store w and loss
@@ -75,15 +73,10 @@ def least_squares_SGD(y, tx, initial_w, max_iters, gamma):
             # update w through the stochastic gradient update
             w = w - gamma * grad
             # calculate loss
-            loss = compute_loss(y, tx, w)
+            loss = compute_mse(y, tx, w)
     return w, loss
 
 # ----------------------- Least Squares ---------------------------
-def compute_mse(y, tx, w):
-    """compute the loss by mse."""
-    e = y - tx.dot(w)
-    mse = e.dot(e) / (2 * len(e))
-    return mse
 
 def least_squares(y, tx):
     """calculate the least squares solution."""
