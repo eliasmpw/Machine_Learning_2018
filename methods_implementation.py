@@ -104,9 +104,41 @@ def ridge_regression(y, tx, lambda_):
     return w, loss
 
 # ----------------------- Logistic Regression ---------------------------
+def sigmoid(t):
+    """apply sigmoid function on t."""
+    return 1.0 / (1 + np.exp(-t))
+
+def calculate_log_loss(y, tx, w):
+    """compute the cost by negative log likelihood."""
+    pred = sigmoid(tx.dot(w))
+    loss = y.T.dot(np.log(pred)) + (1 - y).T.dot(np.log(1 - pred))
+    return np.squeeze(- loss)
+
+def calculate_log_gradient(y, tx, w):
+    """compute the gradient of loss."""
+    pred = sigmoid(tx.dot(w))
+    grad = tx.T.dot(pred - y)
+    return grad
+
 def logistic_regression(y, tx, initial_w, max_iters, gamma):
-    return
+    """implement logistic regression using full gradient descent."""
+    w = initial_w
+    for _ in range(max_iters):
+        # compute loss, gradient
+        grad = calculate_log_gradient(y, tx, w)
+        loss = calculate_log_loss(y, tx, w)
+        # gradient w by descent update
+        w = w - gamma * grad
+    return w, loss
 
 # ----------------------- Regularized Logistic Regression ---------------------------
 def reg_logistic_regression(y, tx, lambda_, initial_w, max_iters, gamma):
-    return
+    """implement regularized logistic regression using full gradient descent."""
+    w = initial_w
+    for _ in range(max_iters):
+        # compute loss, gradient
+        gradient = calculate_log_gradient(y, tx, w) + 2 * lambda_ * w
+        loss = calculate_log_loss(y, tx, w) + lambda_ * np.squeeze(w.T.dot(w))
+        # gradient w by descent update
+        w = w - gamma * grad
+    return w, loss
