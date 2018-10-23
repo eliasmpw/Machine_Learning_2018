@@ -1,5 +1,6 @@
 ENV/
 data/
+.idea/
 test.csv
 train.csv
 sample-submission.csv
