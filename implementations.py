@@ -27,8 +27,8 @@ def compute_gradient(y, tx, w):
         The calculated gradient.
     """
     err = y - tx.dot(w)
-    grad = -tx.T.dot(err) / len(err)
-    return grad
+    gradient = -tx.T.dot(err) / len(err)
+    return gradient
 
 
 def least_squares_GD(y, tx, initial_w, max_iters, gamma):
@@ -46,9 +46,9 @@ def least_squares_GD(y, tx, initial_w, max_iters, gamma):
     w = initial_w
     for _ in range(max_iters):
         # compute gradient
-        grad = compute_gradient(y, tx, w)
+        gradient = compute_gradient(y, tx, w)
         # gradient w by descent update
-        w = w - gamma * grad
+        w = w - gamma * gradient
         # compute loss
         loss = compute_mse(y, tx, w)
     return w, loss
@@ -66,8 +66,8 @@ def compute_stoch_gradient(y, tx, w):
         err: error result.
     """
     err = y - tx.dot(w)
-    grad = -tx.T.dot(err) / len(err)
-    return grad, err
+    gradient = -tx.T.dot(err) / len(err)
+    return gradient, err
 
 
 def batch_iter(y, tx, batch_size, num_batches=1, shuffle=True):
@@ -195,8 +195,8 @@ def calculate_log_gradient(y, tx, w):
         Calculated logistic gradient
     """
     pred = sigmoid(tx.dot(w))
-    grad = tx.T.dot(pred - y)
-    return grad
+    gradient = tx.T.dot(pred - y)
+    return gradient
 
 
 def logistic_regression(y, tx, initial_w, max_iters, gamma):
@@ -214,10 +214,10 @@ def logistic_regression(y, tx, initial_w, max_iters, gamma):
     w = initial_w
     for _ in range(max_iters):
         # compute loss, gradient
-        grad = calculate_log_gradient(y, tx, w)
+        gradient = calculate_log_gradient(y, tx, w)
         loss = calculate_log_loss(y, tx, w)
         # gradient w by descent update
-        w = w - gamma * grad
+        w = w - gamma * gradient
     return w, loss
 
 
