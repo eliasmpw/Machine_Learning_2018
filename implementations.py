@@ -3,23 +3,46 @@
 import csv
 import numpy as np
 
-
 # ----------------------- Least Squares using Gradient Descent ---------------------------
 def compute_mse(y, tx, w):
-    """compute the loss by mse."""
+    """Compute the loss by mse.
+    Args:
+        y: y values.
+        tx: transposed x values.
+        w: weight.
+    Returns:
+        The calculated MSE.
+    """
     e = y - tx.dot(w)
     mse = e.dot(e) / (2 * len(e))
     return mse
 
 def compute_gradient(y, tx, w):
-    """Compute the gradient."""
+    """Compute the gradient.
+    Args:
+        y: y values.
+        tx: transposed x values.
+        w: weight.
+    Returns:
+        The calculated gradient.
+    """
     err = y - tx.dot(w)
     grad = -tx.T.dot(err) / len(err)
     return grad
 
 
 def least_squares_GD(y, tx, initial_w, max_iters, gamma):
-    """Gradient descent algorithm."""
+    """Gradient descent algorithm.
+    Args:
+        y: y values.
+        tx: transposed x values.
+        initial_w: initial weight.
+        max_iters: number of iterations.
+        gamma: the gamma to use.
+    Returns:
+        w: weight result.
+        loss: loss result.
+    """
     w = initial_w
     for _ in range(max_iters):
         # compute gradient
@@ -33,7 +56,15 @@ def least_squares_GD(y, tx, initial_w, max_iters, gamma):
 
 # ----------------------- Least Squares using Stochastic Gradient Descent ---------------------------
 def compute_stoch_gradient(y, tx, w):
-    """Compute a stochastic gradient from just few examples n and their corresponding y_n labels."""
+    """Compute a stochastic gradient from just few examples n and their corresponding y_n labels.
+    Args:
+        y: y values.
+        tx: transposed x values.
+        w: initial weight.
+    Returns:
+        grad: gradient result.
+        err: error result.
+    """
     err = y - tx.dot(w)
     grad = -tx.T.dot(err) / len(err)
     return grad, err
@@ -65,7 +96,17 @@ def batch_iter(y, tx, batch_size, num_batches=1, shuffle=True):
             yield shuffled_y[start_index:end_index], shuffled_tx[start_index:end_index]
 
 def least_squares_SGD(y, tx, initial_w, max_iters, gamma):
-    """Stochastic gradient descent."""
+    """Stochastic gradient descent.
+    Args:
+        y: y values.
+        tx: transposed x values.
+        initial_w: initial weight.
+        max_iters: number of iterations.
+        gamma: the gamma to use.
+    Returns:
+        w: weight result.
+        loss: loss result.
+    """
     # Define parameters to store w and loss
     w = initial_w
     batch_size = 1
@@ -85,7 +126,14 @@ def least_squares_SGD(y, tx, initial_w, max_iters, gamma):
 
 
 def least_squares(y, tx):
-    """calculate the least squares solution."""
+    """calculate the least squares solution.
+    Args:
+        y: y values.
+        tx: transposed x values.
+    Returns:
+        w: weight result.
+        loss: loss result.
+    """
     a = tx.T.dot(tx)
     b = tx.T.dot(y)
     w = np.linalg.solve(a, b)
@@ -95,7 +143,15 @@ def least_squares(y, tx):
 
 # ----------------------- Ridge Regression ---------------------------
 def ridge_regression(y, tx, lambda_):
-    """implement ridge regression."""
+    """implement ridge regression.
+    Args:
+        y: y values.
+        tx: transposed x values.
+        lambda_: the lambda value to use.
+    Returns:
+        w: weight result.
+        loss: loss result.
+    """
     aI = 2 * tx.shape[0] * lambda_ * np.identity(tx.shape[1])
     a = tx.T.dot(tx) + aI
     b = tx.T.dot(y)
@@ -106,26 +162,55 @@ def ridge_regression(y, tx, lambda_):
 
 # ----------------------- Logistic Regression ---------------------------
 def sigmoid(t):
-    """apply sigmoid function on t."""
+    """Apply sigmoid function on t.
+    Args:
+        t: value to use.
+    Returns:
+        Calculated sigmoid
+    """
     return 1.0 / (1 + np.exp(-t))
 
 
 def calculate_log_loss(y, tx, w):
-    """compute the cost by negative log likelihood."""
+    """Compute the cost by negative log likelihood.
+    Args:
+        y: y values.
+        tx: transposed x values.
+        w: weight.
+    Returns:
+        Calculated logistic loss
+    """
     pred = sigmoid(tx.dot(w))
     loss = y.T.dot(np.log(pred)) + (1 - y).T.dot(np.log(1 - pred))
     return np.squeeze(- loss)
 
 
 def calculate_log_gradient(y, tx, w):
-    """compute the gradient of loss."""
+    """Compute the gradient of loss.
+    Args:
+        y: y values.
+        tx: transposed x values.
+        w: weight.
+    Returns:
+        Calculated logistic gradient
+    """
     pred = sigmoid(tx.dot(w))
     grad = tx.T.dot(pred - y)
     return grad
 
 
 def logistic_regression(y, tx, initial_w, max_iters, gamma):
-    """implement logistic regression using full gradient descent."""
+    """implement logistic regression using full gradient descent.
+    Args:
+        y: y values.
+        tx: transposed x values.
+        initial_w: initial weight.
+        max_iters: number of iterations.
+        gamma: the gamma to use.
+    Returns:
+        w: weight result.
+        loss: loss result.
+    """
     w = initial_w
     for _ in range(max_iters):
         # compute loss, gradient
@@ -138,25 +223,47 @@ def logistic_regression(y, tx, initial_w, max_iters, gamma):
 
 # ----------------------- Regularized Logistic Regression ---------------------------
 def reg_logistic_regression(y, tx, lambda_, initial_w, max_iters, gamma):
-    """implement regularized logistic regression using full gradient descent."""
+    """implement regularized logistic regression using full gradient descent.
+    Args:
+        y: y values.
+        tx: transposed x values.
+        initial_w: initial weight.
+        max_iters: number of iterations.
+        gamma: the gamma to use.
+    Returns:
+        w: weight result.
+        loss: loss result.
+    """
     w = initial_w
     for _ in range(max_iters):
         # compute loss, gradient
         gradient = calculate_log_gradient(y, tx, w) + 2 * lambda_ * w
         loss = calculate_log_loss(y, tx, w) + lambda_ * np.squeeze(w.T.dot(w))
         # gradient w by descent update
-        w = w - gamma * grad
+        w = w - gamma * gradient
     return w, loss
 
 
 # ----------------------- Prediction functions --------------------------------------
 def predict_linreg(w, tx):
-    """Make prediction for a linear model"""
+    """Make prediction for a linear model
+    Args:
+        w: weights.
+        tx: transposed x values.
+    Returns:
+        Prediction result
+    """
     pred = tx.dot(w)
     return pred
 
 
 def predict_logreg(w, tx):
-    """Make prediction for a logistic model"""
+    """Make prediction for a logistic model
+    Args:
+        w: weights.
+        tx: transposed x values.
+    Returns:
+        Prediction result
+    """
     pred = sigmoid(tx.dot(w))
     return pred
