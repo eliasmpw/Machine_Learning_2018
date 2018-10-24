@@ -140,15 +140,3 @@ def reg_logistic_regression(y, tx, lambda_, initial_w, max_iters, gamma):
         w = w - gamma * grad
     return w, loss
 
-
-# ----------------------- Prediction functions --------------------------------------
-def predict_linreg(w, tx):
-    """Make prediction for a linear model"""
-    pred = tx.dot(w)
-    return pred
-
-
-def predict_logreg(w, tx):
-    """Make prediction for a logistic model"""
-    pred = sigmoid(tx.dot(w))
-    return pred
