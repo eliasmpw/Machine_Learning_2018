@@ -3,6 +3,7 @@
 import csv
 import numpy as np
 
+
 # ----------------------- Least Squares using Gradient Descent ---------------------------
 def compute_mse(y, tx, w):
     """compute the loss by mse."""
@@ -16,6 +17,7 @@ def compute_gradient(y, tx, w):
     grad = -tx.T.dot(err) / len(err)
     return grad
 
+
 def least_squares_GD(y, tx, initial_w, max_iters, gamma):
     """Gradient descent algorithm."""
     w = initial_w
@@ -28,12 +30,14 @@ def least_squares_GD(y, tx, initial_w, max_iters, gamma):
         loss = compute_mse(y, tx, w)
     return w, loss
 
+
 # ----------------------- Least Squares using Stochastic Gradient Descent ---------------------------
 def compute_stoch_gradient(y, tx, w):
     """Compute a stochastic gradient from just few examples n and their corresponding y_n labels."""
     err = y - tx.dot(w)
     grad = -tx.T.dot(err) / len(err)
     return grad, err
+
 
 def batch_iter(y, tx, batch_size, num_batches=1, shuffle=True):
     """
@@ -65,7 +69,7 @@ def least_squares_SGD(y, tx, initial_w, max_iters, gamma):
     # Define parameters to store w and loss
     w = initial_w
     batch_size = 1
-    
+
     for _ in range(max_iters):
         for y_batch, tx_batch in batch_iter(y, tx, batch_size=batch_size, num_batches=1):
             # compute a stochastic gradient and loss
@@ -76,7 +80,9 @@ def least_squares_SGD(y, tx, initial_w, max_iters, gamma):
             loss = compute_mse(y, tx, w)
     return w, loss
 
+
 # ----------------------- Least Squares ---------------------------
+
 
 def least_squares(y, tx):
     """calculate the least squares solution."""
@@ -85,6 +91,7 @@ def least_squares(y, tx):
     w = np.linalg.solve(a, b)
     loss = np.sqrt(2 * compute_mse(y, tx, w))
     return w, loss
+
 
 # ----------------------- Ridge Regression ---------------------------
 def ridge_regression(y, tx, lambda_):
@@ -96,10 +103,60 @@ def ridge_regression(y, tx, lambda_):
     loss = np.sqrt(2 * compute_mse(y, tx, w))
     return w, loss
 
+
 # ----------------------- Logistic Regression ---------------------------
+def sigmoid(t):
+    """apply sigmoid function on t."""
+    return 1.0 / (1 + np.exp(-t))
+
+
+def calculate_log_loss(y, tx, w):
+    """compute the cost by negative log likelihood."""
+    pred = sigmoid(tx.dot(w))
+    loss = y.T.dot(np.log(pred)) + (1 - y).T.dot(np.log(1 - pred))
+    return np.squeeze(- loss)
+
+
+def calculate_log_gradient(y, tx, w):
+    """compute the gradient of loss."""
+    pred = sigmoid(tx.dot(w))
+    grad = tx.T.dot(pred - y)
+    return grad
+
+
 def logistic_regression(y, tx, initial_w, max_iters, gamma):
-    return
+    """implement logistic regression using full gradient descent."""
+    w = initial_w
+    for _ in range(max_iters):
+        # compute loss, gradient
+        grad = calculate_log_gradient(y, tx, w)
+        loss = calculate_log_loss(y, tx, w)
+        # gradient w by descent update
+        w = w - gamma * grad
+    return w, loss
+
 
 # ----------------------- Regularized Logistic Regression ---------------------------
 def reg_logistic_regression(y, tx, lambda_, initial_w, max_iters, gamma):
-    return
+    """implement regularized logistic regression using full gradient descent."""
+    w = initial_w
+    for _ in range(max_iters):
+        # compute loss, gradient
+        gradient = calculate_log_gradient(y, tx, w) + 2 * lambda_ * w
+        loss = calculate_log_loss(y, tx, w) + lambda_ * np.squeeze(w.T.dot(w))
+        # gradient w by descent update
+        w = w - gamma * grad
+    return w, loss
+
+
+# ----------------------- Prediction functions --------------------------------------
+def predict_linreg(w, tx):
+    """Make prediction for a linear model"""
+    pred = tx.dot(w)
+    return pred
+
+
+def predict_logreg(w, tx):
+    """Make prediction for a logistic model"""
+    pred = sigmoid(tx.dot(w))
+    return pred
