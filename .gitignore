@@ -1,9 +1,9 @@
 ENV/
 data/
 .idea/
+__pycache__/
+.ipynb_checkpoints/
+.vscode/
 test.csv
 train.csv
 sample-submission.csv
-__pycache__
-.ipynb_checkpoints
-.vscode/
