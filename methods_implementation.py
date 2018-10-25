@@ -105,26 +105,41 @@ def sigmoid(t):
 def calculate_log_loss(y, tx, w):
     """compute the cost by negative log likelihood."""
     pred = sigmoid(tx.dot(w))
-    loss = y.T.dot(np.log(pred)) + (1 - y).T.dot(np.log(1 - pred))
+    # variable change
+    z = (1 + y) / 2
+    loss = z.T.dot(np.log(pred)) + (1 - z).T.dot(np.log(1 - pred))
     return np.squeeze(- loss)
 
 
 def calculate_log_gradient(y, tx, w):
     """compute the gradient of loss."""
-    pred = sigmoid(tx.dot(w))
-    grad = tx.T.dot(pred - y)
+    #variable change
+    z = (1 + y) / 2
+    pred = sigmoid(tx.dot(w))   
+    grad = tx.T.dot(pred - z)
     return grad
 
 
 def logistic_regression(y, tx, initial_w, max_iters, gamma):
     """implement logistic regression using full gradient descent."""
     w = initial_w
-    for _ in range(max_iters):
-        # compute loss, gradient
-        grad = calculate_log_gradient(y, tx, w)
-        loss = calculate_log_loss(y, tx, w)
-        # gradient w by descent update
-        w = w - gamma * grad
+    batch_size = 1
+    print_every = 100
+    cumulative_loss = 0
+
+    for n_iter in range(max_iters):
+        for y_batch, tx_batch in batch_iter(y, tx, batch_size=batch_size, num_batches=1):
+            # compute loss, gradient
+            grad = calculate_log_gradient(y_batch, tx_batch, w)
+            loss = calculate_log_loss(y_batch, tx_batch, w)
+            cumulative_loss += loss
+            # gradient w by descent update
+            w = w - gamma * grad
+
+            if (n_iter % print_every==0):
+                print('iteration\t', str(n_iter), '\tloss: ', str(cumulative_loss / print_every))
+                cumulative_loss = 0;
+
     return w, loss
 
 
@@ -132,11 +147,22 @@ def logistic_regression(y, tx, initial_w, max_iters, gamma):
 def reg_logistic_regression(y, tx, lambda_, initial_w, max_iters, gamma):
     """implement regularized logistic regression using full gradient descent."""
     w = initial_w
-    for _ in range(max_iters):
-        # compute loss, gradient
-        gradient = calculate_log_gradient(y, tx, w) + 2 * lambda_ * w
-        loss = calculate_log_loss(y, tx, w) + lambda_ * np.squeeze(w.T.dot(w))
-        # gradient w by descent update
-        w = w - gamma * grad
+    batch_size = 1
+    print_every = 100
+    cumulative_loss = 0
+
+    for n_iter in range(max_iters):
+        for y_batch, tx_batch in batch_iter(y, tx, batch_size=batch_size, num_batches=1):
+            # compute loss, gradient
+            grad = calculate_log_gradient(y_batch, tx_batch, w) + 2 * lambda_ * w
+            loss = calculate_log_loss(y_batch, tx_batch, w) + lambda_ * np.squeeze(w.T.dot(w))
+            cumulative_loss += loss
+            # gradient w by descent update
+            w = w - gamma * grad
+
+            if (n_iter % print_every==0):
+                print('iteration\t', str(n_iter), '\tloss: ', str(cumulative_loss / print_every))
+                cumulative_loss = 0;
+
     return w, loss
 

@@ -2,7 +2,6 @@
 """some helper functions for project 1."""
 import csv
 import numpy as np
-from implementations import *
 import matplotlib.pyplot as plt
 
 
