@@ -3,31 +3,30 @@
 import csv
 import numpy as np
 
-
 # ----------------------- Least Squares using Gradient Descent ---------------------------
-def calculate_mse(e):
-    """Calculate the mse for vector e."""
-    return 1 / 2 * np.mean(e ** 2)
-
+def compute_mse(y, tx, w):
+    """compute the loss by mse."""
+    e = y - tx.dot(w)
+    mse = e.dot(e) / (2 * len(e))
+    return mse
 
 def compute_gradient(y, tx, w):
     """Compute the gradient."""
     err = y - tx.dot(w)
     grad = -tx.T.dot(err) / len(err)
-    return grad, err
-
+    return grad
 
 def least_squares_GD(y, tx, initial_w, max_iters, gamma):
     """Gradient descent algorithm."""
     w = initial_w
     for _ in range(max_iters):
-        # compute loss, gradient
-        grad, err = compute_gradient(y, tx, w)
-        loss = calculate_mse(err)
+        # compute gradient
+        grad = compute_gradient(y, tx, w)
         # gradient w by descent update
         w = w - gamma * grad
+        # compute loss
+        loss = compute_mse(y, tx, w)
     return w, loss
-
 
 # ----------------------- Least Squares using Stochastic Gradient Descent ---------------------------
 def compute_stoch_gradient(y, tx, w):
@@ -35,7 +34,6 @@ def compute_stoch_gradient(y, tx, w):
     err = y - tx.dot(w)
     grad = -tx.T.dot(err) / len(err)
     return grad, err
-
 
 def batch_iter(y, tx, batch_size, num_batches=1, shuffle=True):
     """
@@ -62,16 +60,8 @@ def batch_iter(y, tx, batch_size, num_batches=1, shuffle=True):
         if start_index != end_index:
             yield shuffled_y[start_index:end_index], shuffled_tx[start_index:end_index]
 
-
-def compute_loss(y, tx, w):
-    """Calculate the loss. Here we are using mse"""
-    e = y - tx.dot(w)
-    return calculate_mse(e)
-
-
 def least_squares_SGD(y, tx, initial_w, max_iters, gamma):
     """Stochastic gradient descent."""
-    # Define parameters to store w and loss
     w = initial_w
     batch_size = 1
 
@@ -82,17 +72,10 @@ def least_squares_SGD(y, tx, initial_w, max_iters, gamma):
             # update w through the stochastic gradient update
             w = w - gamma * grad
             # calculate loss
-            loss = compute_loss(y, tx, w)
+            loss = compute_mse(y, tx, w)
     return w, loss
 
-
 # ----------------------- Least Squares ---------------------------
-def compute_mse(y, tx, w):
-    """compute the loss by mse."""
-    e = y - tx.dot(w)
-    mse = e.dot(e) / (2 * len(e))
-    return mse
-
 
 def least_squares(y, tx):
     """calculate the least squares solution."""
@@ -101,7 +84,6 @@ def least_squares(y, tx):
     w = np.linalg.solve(a, b)
     loss = np.sqrt(2 * compute_mse(y, tx, w))
     return w, loss
-
 
 # ----------------------- Ridge Regression ---------------------------
 def ridge_regression(y, tx, lambda_):
@@ -113,60 +95,75 @@ def ridge_regression(y, tx, lambda_):
     loss = np.sqrt(2 * compute_mse(y, tx, w))
     return w, loss
 
-
 # ----------------------- Logistic Regression ---------------------------
 def sigmoid(t):
     """apply sigmoid function on t."""
-    return 1.0 / (1 + np.exp(-t))
+    return 1.0 / (1.0 + np.exp(-t))
 
 
 def calculate_log_loss(y, tx, w):
     """compute the cost by negative log likelihood."""
     pred = sigmoid(tx.dot(w))
-    loss = y.T.dot(np.log(pred)) + (1 - y).T.dot(np.log(1 - pred))
+    # variable change
+    z = (1 + y) / 2
+    loss = (z.T.dot(np.log(pred)) + (1 - z).T.dot(np.log(1 - pred))) / len(y)
     return np.squeeze(- loss)
 
 
 def calculate_log_gradient(y, tx, w):
     """compute the gradient of loss."""
-    pred = sigmoid(tx.dot(w))
-    grad = tx.T.dot(pred - y)
+    #variable change
+    z = (1 + y) / 2
+    pred = sigmoid(tx.dot(w))   
+    grad = tx.T.dot(pred - z)
     return grad
 
 
-def logistic_regression(y, tx, initial_w, max_iters, gamma):
+def logistic_regression_SGD(y, tx, initial_w, max_iters, gamma):
     """implement logistic regression using full gradient descent."""
+    batch_size = 1
+    print_every = 100
+    cumulative_loss = 0
+
     w = initial_w
-    for _ in range(max_iters):
-        # compute loss, gradient
-        grad = calculate_log_gradient(y, tx, w)
-        loss = calculate_log_loss(y, tx, w)
-        # gradient w by descent update
-        w = w - gamma * grad
+
+    for n_iter in range(max_iters):
+        for y_batch, tx_batch in batch_iter(y, tx, batch_size=batch_size, num_batches=1):
+            # compute loss, gradient
+            grad = calculate_log_gradient(y_batch, tx_batch, w)
+            loss = calculate_log_loss(y_batch, tx_batch, w)
+            cumulative_loss += loss
+            # gradient w by descent update
+            w = w - gamma * grad
+
+            if (n_iter % print_every==0):
+                print('iteration\t', str(n_iter), '\tloss: ', str(cumulative_loss / print_every))
+                cumulative_loss = 0;
+
     return w, loss
 
 
 # ----------------------- Regularized Logistic Regression ---------------------------
-def reg_logistic_regression(y, tx, lambda_, initial_w, max_iters, gamma):
+def reg_logistic_regression_SGD(y, tx, initial_w, max_iters, gamma, lambda_):
     """implement regularized logistic regression using full gradient descent."""
+    batch_size = 1
+    print_every = 100
+    cumulative_loss = 0    
     w = initial_w
-    for _ in range(max_iters):
-        # compute loss, gradient
-        gradient = calculate_log_gradient(y, tx, w) + 2 * lambda_ * w
-        loss = calculate_log_loss(y, tx, w) + lambda_ * np.squeeze(w.T.dot(w))
-        # gradient w by descent update
-        w = w - gamma * grad
+
+
+    for n_iter in range(max_iters):
+        for y_batch, tx_batch in batch_iter(y, tx, batch_size=batch_size, num_batches=1):
+            # compute loss, gradient
+            grad = calculate_log_gradient(y_batch, tx_batch, w) + 2 * lambda_ * w
+            loss = calculate_log_loss(y_batch, tx_batch, w) + lambda_ * np.squeeze(w.T.dot(w))
+            cumulative_loss += loss
+            # gradient w by descent update
+            w = w - gamma * grad
+
+            if (n_iter % print_every==0):
+                print('iteration\t', str(n_iter), '\tloss: ', str(cumulative_loss / print_every))
+                cumulative_loss = 0;
+
     return w, loss
 
-
-# ----------------------- Prediction functions --------------------------------------
-def predict_linreg(w, tx):
-    """Make prediction for a linear model"""
-    pred = tx.dot(w)
-    return pred
-
-
-def predict_logreg(w, tx):
-    """Make prediction for a logistic model"""
-    pred = sigmoid(tx.dot(w))
-    return pred
