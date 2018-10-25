@@ -1,9 +1,6 @@
 ENV/
 data/
+__pycache__/
 .idea/
-test.csv
-train.csv
-sample-submission.csv
-__pycache__
-.ipynb_checkpoints
+.ipynb_checkpoints/
 .vscode/
