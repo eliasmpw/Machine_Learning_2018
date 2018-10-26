@@ -111,7 +111,7 @@ def prepare_data(x_train, x_test, flag_add_offset, flag_standardize, flag_remove
     if flag_remove_outliers == True:
         # replace the outliers with the most common element of each column
         x_train = remove_outliers(x_train)
-        x_test = remove_outliers(x_train)
+        x_test = remove_outliers(x_test)
     
     # Building Polynomial base with degree passed
     x_train = build_poly(x_train, degree)
