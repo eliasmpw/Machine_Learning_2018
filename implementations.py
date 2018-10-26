@@ -96,6 +96,7 @@ def batch_iter(y, tx, batch_size, num_batches=1, shuffle=True):
             yield shuffled_y[start_index:end_index], shuffled_tx[start_index:end_index]
 
 def least_squares_SGD(y, tx, initial_w, max_iters, gamma):
+
     """Stochastic gradient descent.
     Args:
         y: y values.
@@ -168,7 +169,7 @@ def sigmoid(t):
     Returns:
         Calculated sigmoid
     """
-    return 1.0 / (1 + np.exp(-t))
+    return 1.0 / (1.0 + np.exp(-t))
 
 
 def calculate_log_loss(y, tx, w):
@@ -181,7 +182,8 @@ def calculate_log_loss(y, tx, w):
         Calculated logistic loss
     """
     pred = sigmoid(tx.dot(w))
-    loss = y.T.dot(np.log(pred)) + (1 - y).T.dot(np.log(1 - pred))
+    z = (1 + y) / 2
+    loss = (z.T.dot(np.log(pred)) + (1 - z).T.dot(np.log(1 - pred))) / len(y)
     return np.squeeze(- loss)
 
 
@@ -194,13 +196,15 @@ def calculate_log_gradient(y, tx, w):
     Returns:
         Calculated logistic gradient
     """
-    pred = sigmoid(tx.dot(w))
-    gradient = tx.T.dot(pred - y)
-    return gradient
+    #variable change
+    z = (1 + y) / 2
+    pred = sigmoid(tx.dot(w))   
+    grad = tx.T.dot(pred - z)
+    return grad
 
 
-def logistic_regression(y, tx, initial_w, max_iters, gamma):
-    """implement logistic regression using full gradient descent.
+def logistic_regression_SGD(y, tx, initial_w, max_iters, gamma):
+    """implement logistic regression using SGD.
     Args:
         y: y values.
         tx: transposed x values.
@@ -211,19 +215,30 @@ def logistic_regression(y, tx, initial_w, max_iters, gamma):
         w: weight result.
         loss: loss result.
     """
+    batch_size = 1
+    print_every = 100
+    cumulative_loss = 0
+
     w = initial_w
-    for _ in range(max_iters):
-        # compute loss, gradient
-        gradient = calculate_log_gradient(y, tx, w)
-        loss = calculate_log_loss(y, tx, w)
-        # gradient w by descent update
-        w = w - gamma * gradient
+
+    for n_iter in range(max_iters):
+        for y_batch, tx_batch in batch_iter(y, tx, batch_size=batch_size, num_batches=1):
+            # compute loss, gradient
+            grad = calculate_log_gradient(y_batch, tx_batch, w)
+            loss = calculate_log_loss(y_batch, tx_batch, w)
+            cumulative_loss += loss
+            # gradient w by descent update
+            w = w - gamma * grad
+
+            if (n_iter % print_every==0):
+                print('iteration\t', str(n_iter), '\tloss: ', str(cumulative_loss / print_every))
+                cumulative_loss = 0;
     return w, loss
 
 
 # ----------------------- Regularized Logistic Regression ---------------------------
-def reg_logistic_regression(y, tx, lambda_, initial_w, max_iters, gamma):
-    """implement regularized logistic regression using full gradient descent.
+def reg_logistic_regression_SGD(y, tx, initial_w, max_iters, gamma, lambda_):
+    """implement regularized logistic regression using SGD.
     Args:
         y: y values.
         tx: transposed x values.
@@ -234,36 +249,23 @@ def reg_logistic_regression(y, tx, lambda_, initial_w, max_iters, gamma):
         w: weight result.
         loss: loss result.
     """
+    batch_size = 1
+    print_every = 100
+    cumulative_loss = 0    
     w = initial_w
-    for _ in range(max_iters):
-        # compute loss, gradient
-        gradient = calculate_log_gradient(y, tx, w) + 2 * lambda_ * w
-        loss = calculate_log_loss(y, tx, w) + lambda_ * np.squeeze(w.T.dot(w))
-        # gradient w by descent update
-        w = w - gamma * gradient
+
+
+    for n_iter in range(max_iters):
+        for y_batch, tx_batch in batch_iter(y, tx, batch_size=batch_size, num_batches=1):
+            # compute loss, gradient
+            grad = calculate_log_gradient(y_batch, tx_batch, w) + 2 * lambda_ * w
+            loss = calculate_log_loss(y_batch, tx_batch, w) + lambda_ * np.squeeze(w.T.dot(w))
+            cumulative_loss += loss
+            # gradient w by descent update
+            w = w - gamma * grad
+
+            if (n_iter % print_every==0):
+                print('iteration\t', str(n_iter), '\tloss: ', str(cumulative_loss / print_every))
+                cumulative_loss = 0;
+
     return w, loss
-
-
-# ----------------------- Prediction functions --------------------------------------
-def predict_linreg(w, tx):
-    """Make prediction for a linear model
-    Args:
-        w: weights.
-        tx: transposed x values.
-    Returns:
-        Prediction result
-    """
-    pred = tx.dot(w)
-    return pred
-
-
-def predict_logreg(w, tx):
-    """Make prediction for a logistic model
-    Args:
-        w: weights.
-        tx: transposed x values.
-    Returns:
-        Prediction result
-    """
-    pred = sigmoid(tx.dot(w))
-    return pred

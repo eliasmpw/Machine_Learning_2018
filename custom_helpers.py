@@ -100,3 +100,31 @@ def remove_outliers(x):
                 data_clean[j][i] = replace_most_frecuent
                 j = j + 1
     return data_clean
+
+
+def prepare_data(x_train, x_test, flag_add_offset, flag_standardize, flag_remove_outliers, degree):
+    """Prepare data. Different manipulations can be specified with flags"""  
+    # remove invalid values (-999)
+    train_x = remove_invalid(x_train)
+    test_x = remove_invalid(x_test)
+
+    if flag_remove_outliers == True:
+        # replace the outliers with the most common element of each column
+        train_x = remove_outliers(train_x)
+        test_x = remove_outliers(test_x)
+    
+    # Building Polynomial base with degree passed
+    x_train_poly = build_poly(x_train, degree)
+    x_test_poly = build_poly(x_test, degree)
+
+    if flag_standardize == True:
+        # Standardizing data
+        std_training_x, a, b = standardize(x_train_poly)
+        std_testing_x, c, d = standardize(x_test_poly)
+
+    if flag_add_offset == True:
+        # Getting matrix tX, adding offset value, entire colum of ones[1]
+        training_tx = np.c_[np.ones(std_training_x.shape[0]), std_training_x]
+        testing_tx = np.c_[np.ones(std_testing_x.shape[0]), std_testing_x]
+        
+    return train_x, test_x
