@@ -2,6 +2,7 @@
 """Contains the 6 ML methods that were required to be implemented."""
 import csv
 import numpy as np
+from custom_helpers import *
 
 # ----------------------- Least Squares using Gradient Descent ---------------------------
 def compute_mse(y, tx, w):
@@ -13,7 +14,8 @@ def compute_mse(y, tx, w):
     Returns:
         The calculated MSE.
     """
-    e = y - tx.dot(w)
+    pred = np.squeeze(tx.dot(w))
+    e = y - pred
     mse = e.dot(e) / (2 * len(e))
     return mse
 
@@ -26,7 +28,8 @@ def compute_gradient(y, tx, w):
     Returns:
         The calculated gradient.
     """
-    err = y - tx.dot(w)
+    pred = np.squeeze(tx.dot(w))
+    err = y - pred
     gradient = -tx.T.dot(err) / len(err)
     return gradient
 
@@ -44,13 +47,23 @@ def least_squares_GD(y, tx, initial_w, max_iters, gamma):
         loss: loss result.
     """
     w = initial_w
-    for _ in range(max_iters):
+    print_every = 50
+    cumulative_loss = 0
+
+    for n_iter in range(max_iters):
         # compute gradient
         gradient = compute_gradient(y, tx, w)
         # gradient w by descent update
         w = w - gamma * gradient
         # compute loss
         loss = compute_mse(y, tx, w)
+        cumulative_loss += loss
+
+        if (n_iter % print_every==0):
+            # print average loss for the last print_every iterations
+            print('iteration\t', str(n_iter), '\tloss: ', str(cumulative_loss / print_every))
+            cumulative_loss = 0;
+
     return w, loss
 
 
@@ -111,6 +124,8 @@ def least_squares_SGD(y, tx, initial_w, max_iters, gamma):
     # Define parameters to store w and loss
     w = initial_w
     batch_size = 1
+    print_every = 50
+    cumulative_loss = 0
 
     for _ in range(max_iters):
         for y_batch, tx_batch in batch_iter(y, tx, batch_size=batch_size, num_batches=1):
@@ -120,6 +135,13 @@ def least_squares_SGD(y, tx, initial_w, max_iters, gamma):
             w = w - gamma * grad
             # calculate loss
             loss = compute_mse(y, tx, w)
+            cumulative_loss += loss
+
+        if (n_iter % print_every==0):
+            # print average loss for the last print_every iterations
+            print('iteration\t', str(n_iter), '\tloss: ', str(cumulative_loss / print_every))
+            cumulative_loss = 0;
+
     return w, loss
 
 
@@ -182,6 +204,7 @@ def calculate_log_loss(y, tx, w):
         Calculated logistic loss
     """
     pred = sigmoid(tx.dot(w))
+    
     z = (1 + y) / 2
     loss = (z.T.dot(np.log(pred)) + (1 - z).T.dot(np.log(1 - pred))) / len(y)
     return np.squeeze(- loss)
@@ -216,7 +239,7 @@ def logistic_regression_SGD(y, tx, initial_w, max_iters, gamma):
         loss: loss result.
     """
     batch_size = 1
-    print_every = 100
+    print_every = 50
     cumulative_loss = 0
 
     w = initial_w
@@ -230,9 +253,10 @@ def logistic_regression_SGD(y, tx, initial_w, max_iters, gamma):
             # gradient w by descent update
             w = w - gamma * grad
 
-            if (n_iter % print_every==0):
-                print('iteration\t', str(n_iter), '\tloss: ', str(cumulative_loss / print_every))
-                cumulative_loss = 0;
+        if (n_iter % print_every==0):
+            # print average loss for the last print_every iterations
+            print('iteration\t', str(n_iter), '\tloss: ', str(cumulative_loss / print_every))
+            cumulative_loss = 0;
     return w, loss
 
 
@@ -250,7 +274,7 @@ def reg_logistic_regression_SGD(y, tx, initial_w, max_iters, gamma, lambda_):
         loss: loss result.
     """
     batch_size = 1
-    print_every = 100
+    print_every = 50
     cumulative_loss = 0    
     w = initial_w
 
@@ -264,8 +288,8 @@ def reg_logistic_regression_SGD(y, tx, initial_w, max_iters, gamma, lambda_):
             # gradient w by descent update
             w = w - gamma * grad
 
-            if (n_iter % print_every==0):
-                print('iteration\t', str(n_iter), '\tloss: ', str(cumulative_loss / print_every))
-                cumulative_loss = 0;
-
+        if (n_iter % print_every==0):
+            # print average loss for the last print_every iterations
+            print('iteration\t', str(n_iter), '\tloss: ', str(cumulative_loss / print_every))
+            cumulative_loss = 0;
     return w, loss

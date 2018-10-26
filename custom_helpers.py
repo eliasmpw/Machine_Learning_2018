@@ -118,7 +118,6 @@ def prepare_data(x_train, x_test, flag_add_offset, flag_standardize, flag_remove
     x_test = build_poly(x_test, degree)
 
     if flag_standardize == True:
-        print("hallo")
         # Standardizing data
         x_train, mean, std = standardize(x_train)
         x_test = standardize_test(x_test, mean, std)
