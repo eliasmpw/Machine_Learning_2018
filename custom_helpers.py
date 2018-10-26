@@ -105,26 +105,37 @@ def remove_outliers(x):
 def prepare_data(x_train, x_test, flag_add_offset, flag_standardize, flag_remove_outliers, degree):
     """Prepare data. Different manipulations can be specified with flags"""  
     # remove invalid values (-999)
-    train_x = remove_invalid(x_train)
-    test_x = remove_invalid(x_test)
+    x_train = remove_invalid(x_train)
+    x_test = remove_invalid(x_test)
 
     if flag_remove_outliers == True:
         # replace the outliers with the most common element of each column
-        train_x = remove_outliers(train_x)
-        test_x = remove_outliers(test_x)
+        x_train = remove_outliers(x_train)
+        x_test = remove_outliers(x_train)
     
     # Building Polynomial base with degree passed
-    x_train_poly = build_poly(x_train, degree)
-    x_test_poly = build_poly(x_test, degree)
+    x_train = build_poly(x_train, degree)
+    x_test = build_poly(x_test, degree)
 
     if flag_standardize == True:
+        print("hallo")
         # Standardizing data
-        std_training_x, a, b = standardize(x_train_poly)
-        std_testing_x, c, d = standardize(x_test_poly)
+        x_train, mean, std = standardize(x_train)
+        x_test = standardize_test(x_test, mean, std)
 
     if flag_add_offset == True:
         # Getting matrix tX, adding offset value, entire colum of ones[1]
-        training_tx = np.c_[np.ones(std_training_x.shape[0]), std_training_x]
-        testing_tx = np.c_[np.ones(std_testing_x.shape[0]), std_testing_x]
+        x_train = np.c_[np.ones(x_train.shape[0]), x_train]
+        x_test = np.c_[np.ones(x_test.shape[0]), x_test]
         
-    return train_x, test_x
+    return x_train, x_test
+
+
+def plot_iterations(losses):
+    plt.plot(np.asarray(losses), marker=".", color='b', label='train loss')
+    plt.xlabel("iteration")
+    plt.ylabel("loss")
+    plt.title("Loss over iterations")
+    plt.grid(True)
+    plt.savefig("iterations")
+    
