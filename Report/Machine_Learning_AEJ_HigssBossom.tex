@@ -2,6 +2,7 @@
 
 \usepackage{hyperref}
 \usepackage{graphicx}	% For figure environment
+\usepackage{placeins}
 
 
 \begin{document}
@@ -66,6 +67,7 @@ the paper of the Higgs Challenge ~\cite{higgs_challenge01}. After a
 close analysis of this information, the results are:
 
 \begin{itemize}
+ \label{text:categorical}
 \item The feature in column 22 \texttt{PRI\_jet\_num} is a categorical feature,
 with discrete values of (0,1,2,3). For this reason it should be considered
 for categorization and extracted from the data.
@@ -83,10 +85,11 @@ the IQR technique ~\cite{IQR01}.
 \end{itemize}
 
 \subsection{Polynomials, Standardization, Offset}
+ \label{text:datasteps}
 \begin{itemize}
 \item Polynomials are used in the models because linear models may cause
 underfiting, however the degree of the polynomials should be calibrated carefully
-to avoid overfitting.
+to avoid over-fitting.
 \item Once the polynomials are ready it is needed to standardize the data 
 as the models we used converge faster with this feature, for this purpose 
 the values (mean, standard deviation) from the train data  are used.
@@ -95,6 +98,88 @@ the values (mean, standard deviation) from the train data  are used.
 
 \end{itemize}
 \section{Models-Machine Learning}
+For this project we implemented 6 different models to make the predictions, 
+and for each one of them we implemented cross validation to assure that the 
+model will work as expected with new values. For this we implemented k-fold 
+cross validation with a values of k=5 to split the data in 5 even groups, where 
+4 groups are used for training and one group is used for test. 
+The results found for the different six models are summarized in Table~\ref{tab:models}.
+As it can be understood from the table the best model is ``Best Model'', so this will
+be the model used to describe in detail the process to achieve the result obtained.
+To begin with the training of our model first we analyzed different scenarios: 
+
+\begin{enumerate}
+\item Training the model - Standardization \\
+First the model trained with the entire set of data, without applying categorical 
+training. In this case is only applied standardization as explained in ~\ref{text:datasteps}
+The results obtained are:
+1. RMSE:    2. Kaggle: 
+With these results we clearly deduct that more cleaning stages were necessary to understand
+the data and achieve that our model behaves as expected.
+
+\item Training the model - Removing Outliers \\
+Analyzing the previous step, we realized that the model showed really high values, to fix
+this problem we proceed with the removing outliers step explained in ~\ref{text:datasteps}.
+The results obtained are:
+1. RMSE:    2. Kaggle: 
+And it shows and improvement of \texttt{00\%}
+\item Training the model - Categorical values \\
+ Finally to obtain the official result presented to kaggle the model will trained depending
+ on the categorical values as explained~\ref{text:categorical}
+ The results obtained are:
+ 1. RMSE:    2. Kaggle:
+ Which compared to the step 1 shows and improvement of \texttt{00\%}.
+\end{enumerate}
+
+\begin{table}[h]
+  \caption{Models to Use.}
+  \label{tab:models}
+\begin{tabular}{|l|l|l|l|}
+\hline
+\textbf{Model}                                                              & \textbf{RMSE} & \textbf{Hyper Param}                                      & \textbf{Comment} \\ \hline
+\begin{tabular}[c]{@{}l@{}}Least Squeares\\   GD\end{tabular}               & 8             & \begin{tabular}[c]{@{}l@{}}degree=\\ lambda=\end{tabular} & comment          \\ \hline
+\begin{tabular}[c]{@{}l@{}}Least Squeares\\   SGD\end{tabular}              & 8             & \begin{tabular}[c]{@{}l@{}}degree=\\ lambda=\end{tabular} & comment          \\ \hline
+Least Squeares                                                              & 8             & \begin{tabular}[c]{@{}l@{}}degree=\\ lambda=\end{tabular} & comment          \\ \hline
+\begin{tabular}[c]{@{}l@{}}Ridge\\   Regression\end{tabular}                & 8             & \begin{tabular}[c]{@{}l@{}}degree=\\ lambda=\end{tabular} & comment          \\ \hline
+\begin{tabular}[c]{@{}l@{}}Logistic\\   Regression\end{tabular}             & 8             & \begin{tabular}[c]{@{}l@{}}degree=\\ lambda=\end{tabular} & comment          \\ \hline
+\begin{tabular}[c]{@{}l@{}}Regularized\\   Logistic Regression\end{tabular} & 8             & \begin{tabular}[c]{@{}l@{}}degree=\\ lambda=\end{tabular} & comment          \\ \hline
+\end{tabular}
+\end{table}
+
+\section{BEST MODEL Detailed Description}
+As we observed in the previous section the best model that fits 
+the data is BEST MODEL, therefore a detailed explanation of the 
+method and the code is explained:\\
+To start the weights are initialized as a column of ones, then we define 
+that all the data processing functions are true, as discussed before gives
+a better result. Then we input the value for the selected model and define
+the maximum iterations and start the cross validation step to assure that
+the models will work as expected. Once this is completed a grid search
+method is applied for the degree of the polynomials and also for the best
+lambda used to penalize the model and avoid over-fitting in case that the 
+degree found in the grid search is to high. The result shows that the best degree
+is 2  and the best lambda is VALUE as you can see in the figure ~\ref{fig:best_degree}. 
+With these results it is deduced that the lambda value is almost zero
+which could cause that the model over-fits if the degree of the polynomial was
+higher, however with just a value of two in the degree, the risk of over-fitting is
+low, therefore the lambda value will be omitted. 
+Once the best hyper-parameters are found the model can start with the training
+for each of the categorical values, giving a prediction to each categorical value
+and appending this to final result that will be saved as an excel file.
+
+
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=\columnwidth]{denoised_signal_1d}
+  \caption{Result of grid search for best degree.}
+  \vspace{-3mm}
+  \label{fig:best_degree}
+\end{figure}
+
+
+
+
 
 
 
