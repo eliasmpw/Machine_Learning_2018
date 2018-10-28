@@ -57,12 +57,12 @@ print("Data loaded")
 
 """
 Methods mapping
-0    Linear regression (full gradient descent)
-1    Linear regression (stochastic gradient descent)
-2    Least squares method
-3    Ridge regression
-4    Logistic regression (stochastic gradient descent)
-5    Regularized logistic regression (stochastic gradient descent)
+0    Linear Regression (Full gradient descent)
+1    Linear Regression (Stochastic gradient descent)
+2    Least Squares Method
+3    Ridge Regression
+4    Logistic Regression (Stochastic Gradient Descent)
+5    Regularized Logistic Regression (Stochastic Gradient Descent)
 """
 
 # Choose feature treatment methods
