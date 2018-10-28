@@ -9,7 +9,7 @@
 \title{Machine Learning Project I}
 
 \author{
-  Andres Montero, Elias Poroma, Jonas LASTNAME\\
+  Andres Montero, Elias Poroma, Jonas J\"aggi\\
   \textit{School of Computer and Communication Sciences, EPFL, Switzerland}
 }
 
@@ -136,15 +136,16 @@ And it shows and improvement of \texttt{00\%}
   \label{tab:models}
 \begin{tabular}{|l|l|l|l|}
 \hline
-\textbf{Model}                                                              & \textbf{RMSE} & \textbf{Hyper Param}                                      & \textbf{Comment} \\ \hline
-\begin{tabular}[c]{@{}l@{}}Least Squeares\\   GD\end{tabular}               & 8             & \begin{tabular}[c]{@{}l@{}}degree=\\ lambda=\end{tabular} & comment          \\ \hline
-\begin{tabular}[c]{@{}l@{}}Least Squeares\\   SGD\end{tabular}              & 8             & \begin{tabular}[c]{@{}l@{}}degree=\\ lambda=\end{tabular} & comment          \\ \hline
-Least Squeares                                                              & 8             & \begin{tabular}[c]{@{}l@{}}degree=\\ lambda=\end{tabular} & comment          \\ \hline
-\begin{tabular}[c]{@{}l@{}}Ridge\\   Regression\end{tabular}                & 8             & \begin{tabular}[c]{@{}l@{}}degree=\\ lambda=\end{tabular} & comment          \\ \hline
-\begin{tabular}[c]{@{}l@{}}Logistic\\   Regression\end{tabular}             & 8             & \begin{tabular}[c]{@{}l@{}}degree=\\ lambda=\end{tabular} & comment          \\ \hline
-\begin{tabular}[c]{@{}l@{}}Regularized\\   Logistic Regression\end{tabular} & 8             & \begin{tabular}[c]{@{}l@{}}degree=\\ lambda=\end{tabular} & comment          \\ \hline
+\textbf{Model}                                                              & \textbf{RMSE} & \textbf{Hyper Param}                                      & \textbf{gamma, iterations} \\ \hline
+\begin{tabular}[c]{@{}l@{}}Least Squeares\\   GD\end{tabular}               & 8             & \begin{tabular}[c]{@{}l@{}}degree=\\ lambda=\end{tabular} & 1, 1          \\ \hline
+\begin{tabular}[c]{@{}l@{}}Least Squeares\\   SGD\end{tabular}              & 8             & \begin{tabular}[c]{@{}l@{}}degree=\\ lambda=\end{tabular} & 1, 1         \\ \hline
+Least Squeares                                                              & 8             & \begin{tabular}[c]{@{}l@{}}degree=\\ lambda=\end{tabular} & -          \\ \hline
+\begin{tabular}[c]{@{}l@{}}Ridge\\   Regression\end{tabular}                & 8             & \begin{tabular}[c]{@{}l@{}}degree=\\ lambda=\end{tabular} & -          \\ \hline
+\begin{tabular}[c]{@{}l@{}}Logistic\\   Regression\end{tabular}             & 8             & \begin{tabular}[c]{@{}l@{}}degree=\\ lambda=\end{tabular} & 1, 1          \\ \hline
+\begin{tabular}[c]{@{}l@{}}Regularized\\   Logistic Regression\end{tabular} & 8             & \begin{tabular}[c]{@{}l@{}}degree=\\ lambda=\end{tabular} & 1, 1        \\ \hline
 \end{tabular}
 \end{table}
+
 
 \section{BEST MODEL Detailed Description}
 As we observed in the previous section the best model that fits 
@@ -171,16 +172,32 @@ and appending this to final result that will be saved as an excel file.
 
 \begin{figure}[h]
   \centering
-  \includegraphics[width=\columnwidth]{denoised_signal_1d}
-  \caption{Result of grid search for best degree.}
+  \includegraphics[width=\columnwidth]{cross_validation_degree}
+  \caption{RMSE for different degrees of polynomial expansion - Ridge regression.}
   \vspace{-3mm}
   \label{fig:best_degree}
 \end{figure}
 
 
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=\columnwidth]{cross_validation_lambda}
+  \caption{RMSE for different regularization values - Ridge regression}
+  \vspace{-3mm}
+  \label{fig:best_lambda}
+\end{figure}
 
-
-
+\begin{table}[h]
+  \caption{Significance of feature engineering}
+  \label{tab:models}
+\begin{tabular}{|l|l|l|l|}
+\hline
+\textbf{Data treatment}                                                              & \textbf{Training set division}                                      & \textbf{Kaggle score} \\ \hline
+\begin{tabular}[c]{@{}l@{}}only standardization \& offset\end{tabular}                            & \begin{tabular}[c]{@{}l@{}}no division\end{tabular} & ???          \\ \hline
+\begin{tabular}[c]{@{}l@{}}+ outlier replacement\end{tabular}                           & \begin{tabular}[c]{@{}l@{}}no division\end{tabular} & 0.65773          \\ \hline
++ outlier replacement                                                                           & \begin{tabular}[c]{@{}l@{}}division into \\jet categories\end{tabular} & ???          \\ \hline
+\end{tabular}
+\end{table}
 
 
 

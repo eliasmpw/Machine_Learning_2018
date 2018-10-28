@@ -11,7 +11,7 @@ J08                 reg logreg          1e-6    3000        1       0.0001      
 J10                 ridge regression    -       -           2       0.0             0.80780
 J11                 ridge regression    -       -           2       5E-13           0.80776
 
-J12                 ls, utlier removed  not categorical     2       -               0.65773
+J12                 ls, outlier removed  not categorical     2       -              0.65773
 J13                 ls, outlier not removed, not categ.     2       -               ???
 
 
