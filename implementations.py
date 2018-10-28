@@ -190,10 +190,14 @@ def calculate_log_loss(y, tx, w):
     Returns:
         Calculated logistic loss
     """
-    pred = sigmoid(tx.dot(w))
-    z = (1 + y) / 2.0
-    loss = - (z.T.dot(np.log(pred)) + (1 - z).T.dot(np.log(1 - pred))) / len(y)
-    return np.squeeze(loss)
+    # pred = sigmoid(tx.dot(w))
+    # z = (1 + y) / 2.0
+    # loss = - (z.T.dot(np.log(pred)) + (1 - z).T.dot(np.log(1 - pred))) / len(y)
+    # return np.squeeze(loss)
+    xtw = (tx.dot(w))
+    loss = np.sum(np.log(1 + np.exp(xtw))) - y.T.dot(xtw)
+
+    return loss / tx.shape[0]
 
 
 def calculate_log_gradient(y, tx, w):
@@ -205,11 +209,16 @@ def calculate_log_gradient(y, tx, w):
     Returns:
         Calculated logistic gradient
     """
-    #variable change
-    z = (1 + y) / 2
-    pred = sigmoid(tx.dot(w))   
-    grad = tx.T.dot(pred - z)
-    return grad
+    # #variable change
+    # z = (1 + y) / 2
+    # pred = sigmoid(tx.dot(w))
+    # grad = tx.T.dot(pred - z)
+    # return grad
+
+    sig = sigmoid(tx.dot(w))
+    gradient = tx.T.dot(sig - y)
+
+    return gradient / tx.shape[0]
 
 
 def logistic_regression(y, tx, initial_w, max_iters, gamma):
@@ -224,17 +233,23 @@ def logistic_regression(y, tx, initial_w, max_iters, gamma):
         w: weight result.
         loss: loss result.
     """
-    print_every = 100
+    print_every = 50
     cumulative_loss = 0
     w = initial_w
 
     for n_iter in range(max_iters):
         # compute loss and gradient
-        grad = calculate_log_gradient(y, tx, w)
+        # grad = calculate_log_gradient(y, tx, w)
+        # loss = calculate_log_loss(y, tx, w)
+        # cumulative_loss += loss
+        # # update w by gradient descent
+        # w = w - gamma * grad
+
+
+        gradient = calculate_log_gradient(y, tx, w)
         loss = calculate_log_loss(y, tx, w)
         cumulative_loss += loss
-        # update w by gradient descent
-        w = w - gamma * grad
+        w = w - (gamma * gradient)
 
         if (n_iter % print_every==0):
             # print average loss for the last print_every iterations
@@ -258,18 +273,22 @@ def reg_logistic_regression(y, tx, initial_w, max_iters, gamma, lambda_):
         w: weight result.
         loss: loss result.
     """
-    print_every = 100
-    cumulative_loss = 0    
+    print_every = 50
+    cumulative_loss = 0
     w = initial_w
 
 
     for n_iter in range(max_iters):
         # compute loss and gradient
-        grad = calculate_log_gradient(y, tx, w) + 2 * lambda_ * w
-        loss = calculate_log_loss(y, tx, w) + lambda_ * np.squeeze(w.T.dot(w))
-        cumulative_loss += loss
-        # update w by gradient descent
+        # grad = calculate_log_gradient(y, tx, w) + 2 * lambda_ * w
+        # loss = calculate_log_loss(y, tx, w) + lambda_ * np.squeeze(w.T.dot(w))
+        # cumulative_loss += loss
+        # # update w by gradient descent
+        # w = w - gamma * grad
+        loss = calculate_log_loss(y, tx, w) + ((lambda_ / 2) * (np.linalg.norm(w) ** 2)) / tx.shape[0]
+        grad = calculate_log_gradient(y, tx, w) + (lambda_ * np.sum(w)) / tx.shape[0]
         w = w - gamma * grad
+        cumulative_loss += loss
 
         if (n_iter % print_every==0):
             # print average loss for the last print_every iterations

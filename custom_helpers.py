@@ -103,7 +103,7 @@ def remove_outliers(x):
 
 
 def prepare_data(x_train, x_test, flag_add_offset, flag_standardize, flag_remove_outliers, degree):
-    """Prepare data. Different manipulations can be specified with flags"""  
+    """Prepare data. Different manipulations can be specified with flags"""
     # remove invalid values (-999)
     x_train = remove_invalid(x_train)
     x_test = remove_invalid(x_test)
@@ -112,7 +112,7 @@ def prepare_data(x_train, x_test, flag_add_offset, flag_standardize, flag_remove
         # replace the outliers with the most common element of each column
         x_train = remove_outliers(x_train)
         x_test = remove_outliers(x_test)
-    
+
     # Building Polynomial base with degree passed
     x_train = build_poly(x_train, degree)
     x_test = build_poly(x_test, degree)
@@ -126,7 +126,7 @@ def prepare_data(x_train, x_test, flag_add_offset, flag_standardize, flag_remove
         # Getting matrix tX, adding offset value, entire colum of ones[1]
         x_train = np.c_[np.ones(x_train.shape[0]), x_train]
         x_test = np.c_[np.ones(x_test.shape[0]), x_test]
-        
+
     return x_train, x_test
 
 
@@ -137,4 +137,16 @@ def plot_iterations(losses):
     plt.title("Loss over iterations")
     plt.grid(True)
     plt.savefig("iterations")
-    
+
+
+def predict_labels_logistic(weights, data):
+    """
+    Generates class predictions given weights, and a test data matrix.
+    Notice that for logistic regression the values are within 0 and 1, so decission limits are changed
+    """
+
+    y_pred = np.dot(data, weights)
+    y_pred[np.where(y_pred <= 0.5)] = -1
+    y_pred[np.where(y_pred > 0.5)] = 1
+
+    return y_pred
