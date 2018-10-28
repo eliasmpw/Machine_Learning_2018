@@ -18,6 +18,7 @@ def compute_mse(y, tx, w):
     mse = e.dot(e) / (2 * len(e))
     return mse
 
+
 def compute_gradient(y, tx, w):
     """Compute the gradient.
     Args:
@@ -131,8 +132,6 @@ def least_squares_SGD(y, tx, initial_w, max_iters, gamma):
 
 
 # ----------------------- Least Squares ---------------------------
-
-
 def least_squares(y, tx):
     """calculate the least squares solution.
     Args:
@@ -237,6 +236,9 @@ def logistic_regression(y, tx, initial_w, max_iters, gamma):
     cumulative_loss = 0
     w = initial_w
 
+    # change labels from (-1, 1) to (0, 1)
+    y[np.where(y==-1)] = 0
+
     for n_iter in range(max_iters):
         # compute loss and gradient
         # grad = calculate_log_gradient(y, tx, w)
@@ -273,9 +275,13 @@ def reg_logistic_regression(y, tx, initial_w, max_iters, gamma, lambda_):
         w: weight result.
         loss: loss result.
     """
+
     print_every = 50
     cumulative_loss = 0
     w = initial_w
+
+    # change labels from (-1, 1) to (0, 1)
+    y[np.where(y1==-1)] = 0
 
 
     for n_iter in range(max_iters):
