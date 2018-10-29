@@ -69,21 +69,37 @@ The Higgs boson is an elementary particle in the Standard Model of particle phys
 
 ## Running other prediction methods
 
-In order to run other predictions methods, or running a prediction method with different paremeters, you should edit the run.py file.
+In order to run other predictions methods, or running a prediction method with different paremeters, you should edit and run the **Train_submission.ipynb** jupyter notebook. Then to run the method, follow these instructions:
 
-1. Feature treatment methods (lines 69 to 72)
+1. Start Jupyter Notebook
 
-    **flag_add_offset** = True/False
+    Run this command:
+    ```
+    jupyter notebook
+    ```
+    This will launch a browser window, with a file explorer open.
 
-    **flag_standardize** = True/False
+2. Open notebook
 
-    **flag_remove_outliers** = True/False
+    Navigate through the folders, and open the **Train_submission.ipynb** file.
 
-    **degree** = A number greater than 0.
+3. Set Feature treatment methods
 
-2. Training model to apply (line 75)
+    Inside the cell with the title "Train one model only" you can modify the following values:
 
-    **flag_method** = A number according to the mapping:
+    - **flag_add_offset** = True/False
+
+    - **flag_standardize** = True/False
+
+    - **flag_remove_outliers** = True/False
+
+    - **degree** = A number greater than 0.
+
+4. Set Training model to apply
+
+    Edit inside the same cell "Train one model only"
+
+    - **flag_method** = A number according to the mapping:
 
     ```
     Methods mapping
@@ -95,17 +111,25 @@ In order to run other predictions methods, or running a prediction method with d
     5    Regularized Logistic Regression (Stochastic Gradient Descent)
     ```
 
-3. Set training parameters (lines 78 to 80)
+5. Set training parameters
 
-    **max_iters** = A number, represent the iterations to do.
+    Edit inside the same cell "Train one model only"
 
-    **gamma** = A number, gamma value that you want to use.
+    - **max_iters** = A number, represent the iterations to do.
 
-    **lambda_** = A number, lambda value that you want to use.
+    - **gamma** = A number, gamma value that you want to use.
+
+    - **lambda_** = A number, lambda value that you want to use.
+
+6. Run the cells of the notebook
+
+    Now open the **Cell** menu and click on the option **Run All**, or manually run every cell.
+
+    You will see the results/outputs between cells, and in the last cell a file named "SubmissionX.csv" will be generated, which contains the predictions with the selected model and can also be uploaded to [Kaggle](https://www.kaggle.com/c/epfml18-higgs/submit)
 
 ## Hyper-Parameters Optimization and Cross Validation
 
-In order to get the best values for lambda and gamma you can run the **Cross_validation.ipynb** notebook. The following instructions will help you run it.
+In order to get the best values for lambda and gamma you can run the **Cross_validation.ipynb** notebook. The following instructions will help you run it:
 
 1. Start Jupyter Notebook
 
@@ -124,6 +148,7 @@ In order to get the best values for lambda and gamma you can run the **Cross_val
     Now you can manually press run on every cell that you want to run (The imports and required functions cells should always be ran). Or you can open the **Cell** menu and click on the option **Run All**
 
     You will see the results/outputs between cells.
+
 
 ## Authors
 
