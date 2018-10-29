@@ -115,11 +115,9 @@ for nb_jets in range(0, 4):
     x_train_jet, x_test_jet = prepare_data(
         x_train_jet, x_test_jet, flag_add_offset, flag_standardize, flag_remove_outliers, degree)
 
-    training_y_final = y_train_jet.copy()
-    training_y_final[np.where(y_train_jet == -1)] = 0
     print("Training model for jet number %d..." % nb_jets)
     # train the chosen model
-    weight = train_model(training_y_final, x_train_jet,
+    weight = train_model(y_train_jet, x_train_jet,
                          flag_method, max_iters, gamma, lambda_)
 
     print("making predictions for jet number %d..." % nb_jets)

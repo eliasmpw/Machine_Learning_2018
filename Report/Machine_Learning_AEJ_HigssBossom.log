@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2018.10.28)  28 OCT 2018 22:21
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2018.10.28)  29 OCT 2018 20:46
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -230,40 +230,45 @@ File: pdftex.def 2018/01/08 v1.0l Graphics/color driver for pdftex
 (/usr/share/texlive/texmf-dist/tex/latex/placeins/placeins.sty
 Package: placeins 2005/04/18  v 2.2
 )
-(./Machine_Learning_AEJ_HigssBossom.aux
-
-LaTeX Warning: Label `tab:models' multiply defined.
-
+(/usr/share/texlive/texmf-dist/tex/latex/float/float.sty
+Package: float 2001/11/08 v1.3d Float enhancements (AL)
+\c@float@type=\count101
+\float@exts=\toks16
+\float@box=\box27
+\@float@everytoks=\toks17
+\@floatcapt=\box28
 )
+(./Machine_Learning_AEJ_HigssBossom.aux)
 \openout1 = `Machine_Learning_AEJ_HigssBossom.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 8.
-LaTeX Font Info:    ... okay on input line 8.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 8.
-LaTeX Font Info:    ... okay on input line 8.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 8.
-LaTeX Font Info:    ... okay on input line 8.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 8.
-LaTeX Font Info:    ... okay on input line 8.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 8.
-LaTeX Font Info:    ... okay on input line 8.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 8.
-LaTeX Font Info:    ... okay on input line 8.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 8.
-LaTeX Font Info:    ... okay on input line 8.
-\AtBeginShipoutBox=\box27
-Package hyperref Info: Link coloring OFF on input line 8.
- (/usr/share/texlive/texmf-dist/tex/latex/hyperref/nameref.sty
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 9.
+LaTeX Font Info:    ... okay on input line 9.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 9.
+LaTeX Font Info:    ... okay on input line 9.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 9.
+LaTeX Font Info:    ... okay on input line 9.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 9.
+LaTeX Font Info:    ... okay on input line 9.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 9.
+LaTeX Font Info:    ... okay on input line 9.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 9.
+LaTeX Font Info:    ... okay on input line 9.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 9.
+LaTeX Font Info:    ... okay on input line 9.
+\AtBeginShipoutBox=\box29
+Package hyperref Info: Link coloring OFF on input line 9.
+
+(/usr/share/texlive/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2016/05/21 v2.44 Cross-referencing by name of section
 
 (/usr/share/texlive/texmf-dist/tex/generic/oberdiek/gettitlestring.sty
 Package: gettitlestring 2016/05/16 v1.5 Cleanup title references (HO)
 )
-\c@section@level=\count101
+\c@section@level=\count102
 )
-LaTeX Info: Redefining \ref on input line 8.
-LaTeX Info: Redefining \pageref on input line 8.
-LaTeX Info: Redefining \nameref on input line 8.
+LaTeX Info: Redefining \ref on input line 9.
+LaTeX Info: Redefining \pageref on input line 9.
+LaTeX Info: Redefining \nameref on input line 9.
 
 (./Machine_Learning_AEJ_HigssBossom.out)
 (./Machine_Learning_AEJ_HigssBossom.out)
@@ -273,17 +278,17 @@ LaTeX Info: Redefining \nameref on input line 8.
 
 (/usr/share/texlive/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count102
+\scratchcounter=\count103
 \scratchdimen=\dimen123
-\scratchbox=\box28
-\nofMPsegments=\count103
-\nofMParguments=\count104
-\everyMPshowfont=\toks16
-\MPscratchCnt=\count105
+\scratchbox=\box30
+\nofMPsegments=\count104
+\nofMParguments=\count105
+\everyMPshowfont=\toks18
+\MPscratchCnt=\count106
 \MPscratchDim=\dimen124
-\MPnumerator=\count106
-\makeMPintoPDFobject=\count107
-\everyMPtoPDFconversion=\toks17
+\MPnumerator=\count107
+\makeMPintoPDFobject=\count108
+\everyMPtoPDFconversion=\toks19
 ) (/usr/share/texlive/texmf-dist/tex/latex/oberdiek/epstopdf-base.sty
 Package: epstopdf-base 2016/05/15 v2.6 Base part for package epstopdf
 
@@ -302,114 +307,70 @@ File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
 e
 ))
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <14> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 17.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 18.
 
 
 LaTeX Warning: Citation `wiki01' on page 1 undefined on input line 37.
 
 
-LaTeX Warning: Citation `kaggle01' on page 1 undefined on input line 50.
+LaTeX Warning: Citation `kaggle01' on page 1 undefined on input line 47.
 
 
 LaTeX Warning: Citation `higgs_challenge01' on page 1 undefined on input line 6
-6.
+1.
 
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <7> on input line 70.
+(Font)              <7> on input line 65.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <5> on input line 70.
-LaTeX Font Info:    Try loading font information for OT1+pcr on input line 71.
+(Font)              <5> on input line 65.
+LaTeX Font Info:    Try loading font information for OT1+pcr on input line 66.
 (/usr/share/texlive/texmf-dist/tex/latex/psnfss/ot1pcr.fd
 File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
 )
 
-LaTeX Warning: Citation `IQR01' on page 1 undefined on input line 83.
+LaTeX Warning: Citation `IQR01' on page 1 undefined on input line 78.
 
 [1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}
 
 
 ]
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <8> on input line 137.
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <6> on input line 137.
+Underfull \hbox (badness 1400) in paragraph at lines 119--124
+\OT1/ptm/m/n/10 Finally to ob-tain the of-fi-cial re-sult pre-sented to
+ []
 
-Overfull \hbox (2.22322pt too wide) in paragraph at lines 137--147
+
+Underfull \hbox (badness 10000) in paragraph at lines 119--124
+
+ []
+
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <8> on input line 128.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <6> on input line 128.
+
+Overfull \hbox (11.54315pt too wide) in paragraph at lines 128--138
 [][] 
  []
 
-<cross_validation_degree.png, id=98, 396.48125pt x 279.0425pt>
+
+Overfull \hbox (4.02269pt too wide) in paragraph at lines 158--165
+[][] 
+ []
+
+
+Underfull \vbox (badness 2368) has occurred while \output is active []
+
+<cross_validation_degree.png, id=49, 396.48125pt x 279.0425pt>
 File: cross_validation_degree.png Graphic file (type png)
 <use cross_validation_degree.png>
-Package pdftex.def Info: cross_validation_degree.png  used on input line 175.
+Package pdftex.def Info: cross_validation_degree.png  used on input line 169.
 (pdftex.def)             Requested size: 243.91125pt x 171.66759pt.
-<cross_validation_lambda.png, id=100, 415.5525pt x 279.0425pt>
+<cross_validation_lambda.png, id=51, 415.5525pt x 279.0425pt>
 File: cross_validation_lambda.png Graphic file (type png)
 <use cross_validation_lambda.png>
-Package pdftex.def Info: cross_validation_lambda.png  used on input line 184.
+Package pdftex.def Info: cross_validation_lambda.png  used on input line 178.
 (pdftex.def)             Requested size: 243.91125pt x 163.78633pt.
 
-Overfull \hbox (4.02269pt too wide) in paragraph at lines 193--200
-[][] 
- []
-
-[2 <./cross_validation_degree.png> <./cross_validation_lambda.png>]
-
-LaTeX Warning: Citation `editor10' on page 3 undefined on input line 241.
-
-
-LaTeX Warning: Citation `jones08' on page 3 undefined on input line 241.
-
-
-LaTeX Warning: Citation `anderson04' on page 3 undefined on input line 241.
-
-
-LaTeX Warning: Citation `jones08' on page 3 undefined on input line 255.
-
-<denoised_signal_1d.png, id=112, 578.16pt x 433.62pt>
-File: denoised_signal_1d.png Graphic file (type png)
-<use denoised_signal_1d.png>
-Package pdftex.def Info: denoised_signal_1d.png  used on input line 267.
-(pdftex.def)             Requested size: 243.91125pt x 182.93298pt.
-<local_wdenoised_1d.png, id=113, 578.16pt x 433.62pt>
-File: local_wdenoised_1d.png Graphic file (type png)
-<use local_wdenoised_1d.png>
-Package pdftex.def Info: local_wdenoised_1d.png  used on input line 274.
-(pdftex.def)             Requested size: 243.91125pt x 182.93298pt.
-
-LaTeX Warning: Citation `anderson04' on page 3 undefined on input line 304.
-
-
-LaTeX Warning: Citation `wavelab' on page 3 undefined on input line 304.
-
-
-LaTeX Warning: Citation `kallet04methods' on page 3 undefined on input line 312
-.
-
-[3 <./denoised_signal_1d.png> <./local_wdenoised_1d.png>]
-
-LaTeX Warning: Citation `hunt99pragmatic' on page 4 undefined on input line 362
-.
-
-
-LaTeX Warning: Citation `spolsky04software' on page 4 undefined on input line 3
-63.
-
-
-LaTeX Warning: Citation `schwab00' on page 4 undefined on input line 366.
-
-
-Underfull \hbox (badness 4479) in paragraph at lines 380--382
-[]\OT1/ptm/m/n/10 Use mean-ing-ful file-names, and not \OT1/pcr/m/n/10 temp1.py
-\OT1/ptm/m/n/10 ,
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 425--426
-\OT1/ptm/m/n/10 This should give you a PDF doc-u-ment
- []
-
-[4]
 No file Machine_Learning_AEJ_HigssBossom.bbl.
 
 ** Conference Paper **
@@ -422,47 +383,67 @@ Before submitting the final camera ready copy, remember to:
  uses only Type 1 fonts and that every step in the generation
  process uses the appropriate paper size.
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 466.
-[5
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 200.
+[2pdfTeX warning (ext4): destination with the same identifier (name{table.1}) h
+as been already used, duplicate ignored
 
-]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 466.
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.200 \end{document}
+                    pdfTeX warning (ext4): destination with the same identifier
+ (name{table.2}) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.200 \end{document}
+                    pdfTeX warning (ext4): destination with the same identifier
+ (name{figure.1}) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.200 \end{document}
+                    pdfTeX warning (ext4): destination with the same identifier
+ (name{figure.2}) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.200 \end{document}
+                     <./cross_validation_degree.png> <./cross_validation_lambda
+.png>]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 200.
  (./Machine_Learning_AEJ_HigssBossom.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 466.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 466.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 200.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 200.
 Package rerunfilecheck Info: File `Machine_Learning_AEJ_HigssBossom.out' has no
 t changed.
-(rerunfilecheck)             Checksum: 6766EEA4BDFB0A858167D315E794D5E5;1208.
+(rerunfilecheck)             Checksum: 619FCC0E3D459AB6769E525CC3E4B15C;369.
 
 
 LaTeX Warning: There were undefined references.
 
 
-LaTeX Warning: There were multiply-defined labels.
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 466.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 200.
  ) 
 Here is how much of TeX's memory you used:
- 5873 strings out of 492982
- 90931 string characters out of 6134895
- 181001 words of memory out of 5000000
- 9355 multiletter control sequences out of 15000+600000
- 44766 words of font info for 80 fonts, out of 8000000 for 9000
+ 5861 strings out of 492982
+ 90684 string characters out of 6134895
+ 182928 words of memory out of 5000000
+ 9375 multiletter control sequences out of 15000+600000
+ 40967 words of font info for 76 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 28i,13n,28p,244b,418s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 28i,14n,28p,248b,420s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/share/texliv
-e/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texm
-f-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/
-fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/share/texlive/texmf-dist/fonts/t
-ype1/urw/courier/ucrr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/time
-s/utmb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb><
-/usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texl
-ive/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on Machine_Learning_AEJ_HigssBossom.pdf (5 pages, 251122 bytes).
-
+e/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/share/texlive/texmf
+-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/share/texlive/texmf-dist/fonts/t
+ype1/urw/times/utmb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/
+utmbi8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></u
+sr/share/texlive/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
+Output written on Machine_Learning_AEJ_HigssBossom.pdf (2 pages, 98345 bytes).
 PDF statistics:
- 196 PDF objects out of 1000 (max. 8388607)
- 171 compressed objects within 2 object streams
- 47 named destinations out of 1000 (max. 500000)
- 173 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 90 PDF objects out of 1000 (max. 8388607)
+ 75 compressed objects within 1 object stream
+ 16 named destinations out of 1000 (max. 500000)
+ 59 words of extra memory for PDF output out of 10000 (max. 10000000)
 

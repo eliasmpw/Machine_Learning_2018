@@ -20,45 +20,40 @@
   Machine learning is a field of artificial intelligence that uses statistical 
   techniques to give computer systems the ability to "learn" from data, 
   without being explicitly programmed. And in this project it is applied 
-  to estimate the likelihood that a given data set is the result of a
+  to estimate the likelihood that a given feature set is the result of a
   specific particle, for example the Higss Boson.
-  This report gives an overview of six machine learning methods implemented
-  to obtain predictions and analyze the accuracy of each method. It describes 
+  This report gives an overview of six machine learning methods that were implemented
+  and evaluated by the accuracy of their predictions. It describes 
   the pre-processing, data cleaning and algorithms used in order to find which
   model has the best fit for the data provided. After comparing these results,
-  the machine learning method that gives the lowest error and therefore the
-  best approximation is Ridge Regression.
+  the machine learning method which reaches the highest accuracy is Least Squares.
 
 \end{abstract}
 
 \section{Introduction}
 
 The Higgs boson is an elementary particle in the Standard Model of 
-particle physics, produced by the quantum excitation of the higgs field
+particle physics, produced by the quantum excitation of the Higgs field
 and explains why some particles have mass~\cite{wiki01}. To confirm 
 the existence of this particle, the CERN made several experiments from 
-which the data is obtained and the objective of this work is to present 
+which the data is obtained and the objective of the here presented work is to present 
 a machine learning model that will give the best prediction. However 
-the data also contains other possible particles, so the main 
+the data also contains measurements of other possible particles, so the main 
 objective is to determine if the data of each experiment belongs to 
-the higss boson or to other particle depending on the values provided
-on the data set. For this purpose two data sets are provided, one to 
-be used for training and the other for testing. 
-The train data contains N=250000 measurements, where each of this
-is described by 30 features and the output, which is 's' correct positive
-or 'b' false positive. The test data contains 568.268 measurements with
-the same 30 features and the output to be determined by the machine
-learning model. The results of this work will be uploaded to kaggle ~\cite{kaggle01}, 
-which will evaluate the accuracy of the model.
+the higss boson or to the other particles depending on the values provided
+on the data set. The training data set contains N=250000 measurements, and each measurement
+is described by 30 features and one label, which is 's' correct positive
+or 'b' false positive. Another 568.268 measurements with
+the same 30 features and the corresponding labels are available for Kaggle~\cite{kaggle01} in order to evaluate the submissions.
 
-\section{Pre-Processing of Data}
+\section{Data Pre-Processing}
 
-\label{sec:Pre-Processing of Data}
+\label{sec:Data Pre-Processing}
 
 It is crucial that the data is understood and that the noise existing in the 
 data is cleaned. First the models were trained without data pre-processing
 and this lead to bad results~\ref{tab:features}. To avoid this and also to 
-show the impact that data cleaning has on the models the different
+show the impact that data cleaning has on a machine learning model the different
 steps of the process are described.
 
 \subsection{Understanding the Data}
@@ -70,17 +65,17 @@ close analysis of this information, the results are:
  \label{text:categorical}
 \item The feature in column 22 \texttt{PRI\_jet\_num} is a categorical feature,
 with discrete values of (0,1,2,3). For this reason it should be considered
-for categorization and extracted from the data.
+for categorical extraction from the data.
 \item Depending on the values of \texttt{PRI\_jet\_num}  we have other columns
-where the value is undefined, therefore this columns should be dropped 
+where the value is undefined, therefore these columns should be dropped 
 on each categorical training.
-\item Even after the removal of the undefined columns depending on the
-categorical values we still find values that are undefined -999, which delivers
-noise to the model, so they are replaced with the mean of the column is each
+\item Some feature may have the value -999, which means that
+independently of the category they belong to, they are
+undefined too. This delivers
+noise to the model, so we replace them with the mean of the column in each
 case.
 \item After that we need to remove the outliers values, as we are using models
-depending on MSE which penalizes heavily the outliers values, for this we use
-the IQR technique ~\cite{IQR01}.
+depending on MSE which penalizes heavily the outliers values, We use IQR technique ~\cite{IQR01} to replace outliers.
 
 \end{itemize}
 

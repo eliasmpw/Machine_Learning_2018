@@ -1,0 +1,8 @@
+Method              gamma   max-iters   degree  lambda          RMSE        Accuracy
+-----------------------------------------------------------------------------------------
+Linreg - GD         0.01    2000        1       -               0.829       0.718
+Linreg - SGD        0.0001  2000        1       -               0.955       0.657
+Least squares       -       -           2       -               0.852       0.774
+Ridge regression    -       -           2       5E-13           0.852       0.773
+
+
