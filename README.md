@@ -12,6 +12,7 @@ The Higgs boson is an elementary particle in the Standard Model of particle phys
 ├── implementations.py      <-Contains 6 Methods implementation
 ├── proj1_helpers.py        <-Helpers provided for project 1
 ├── run.py                  <-Best method runner
+├── Train_submission.ipynb  <-Runner for other methods
 ````
 
 ## Prerequisites
