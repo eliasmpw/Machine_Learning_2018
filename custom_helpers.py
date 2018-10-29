@@ -6,36 +6,17 @@ from implementations import *
 import matplotlib.pyplot as plt
 
 
-def batch_iter(y, tx, batch_size, num_batches=1, shuffle=True):
+def cross_validation_visualization_lambda(lambdas, mse_tr, mse_te):
+    """Visualization of the curves of mse_tr and mse_te for lambda.
+
+    Args:
+        lambdas (numpy.array): Lambda values
+        mse_tr (numpy.array): MSE Training 
+        mse_te (numpy.array): MSE Test
     """
-    Generate a minibatch iterator for a dataset.
-    Takes as input two iterables (here the output desired values 'y' and the input data 'tx')
-    Outputs an iterator which gives mini-batches of `batch_size` matching elements from `y` and `tx`.
-    Data can be randomly shuffled to avoid ordering in the original data messing with the randomness of the minibatches.
-    Example of use :
-    for minibatch_y, minibatch_tx in batch_iter(y, tx, 32):
-        <DO-SOMETHING>
-    """
-    data_size = len(y)
 
-    if shuffle:
-        shuffle_indices = np.random.permutation(np.arange(data_size))
-        shuffled_y = y[shuffle_indices]
-        shuffled_tx = tx[shuffle_indices]
-    else:
-        shuffled_y = y
-        shuffled_tx = tx
-    for batch_num in range(num_batches):
-        start_index = batch_num * batch_size
-        end_index = min((batch_num + 1) * batch_size, data_size)
-        if start_index != end_index:
-            yield shuffled_y[start_index:end_index], shuffled_tx[start_index:end_index]
-
-def cross_validation_visualization(lambds, mse_tr, mse_te):
-    """visualization the curves of mse_tr and mse_te."""
-
-    plt.plot(lambds, mse_tr, marker="x", color='b', label='train error')
-    plt.plot(lambds, mse_te, marker=".", color='r', label='test error')
+    plt.plot(lambdas, mse_tr, marker="x", color='b', label='train error')
+    plt.plot(lambdas, mse_te, marker=".", color='r', label='test error')
     plt.xlabel("lambda")
     plt.ylabel("rmse")
     plt.title("cross validation")
@@ -43,8 +24,15 @@ def cross_validation_visualization(lambds, mse_tr, mse_te):
     plt.grid(True)
     plt.savefig("cross_validation_lambda", bbox_inches="tight")
 
+
 def cross_validation_visualization_degree(degrees, mse_tr, mse_te):
-    """visualization the curves of mse_tr and mse_te."""
+    """Visualization of the curves of mse_tr and mse_te for the degrees.
+
+    Args:
+        degrees (numpy.array): Degree values
+        mse_tr (numpy.array): MSE Training 
+        mse_te (numpy.array): MSE Test
+    """
 
     plt.plot(degrees, mse_tr, marker="x", color='b', label='train error')
     plt.plot(degrees, mse_te, marker=".", color='r', label='test error')
@@ -59,7 +47,19 @@ def cross_validation_visualization_degree(degrees, mse_tr, mse_te):
 
 
 def standardize(x):
-    """Standardize the original data set."""
+    """Standardize the original data set.
+
+    Args:
+        x (numpy.array): Array with data for x
+
+    Returns:
+        (tuple): tuple containing:
+
+            x (numpy.array): Standardized array
+            mean_x (numpy.array): Arithmetic Mean
+            std_x (numpy.array): Standard deviation
+    """
+
     mean_x = np.mean(x)
     x = x - mean_x
     std_x = np.std(x)
@@ -68,14 +68,33 @@ def standardize(x):
 
 
 def standardize_test(x_test, mean, std):
-    """Standardize the values of testing_x depending on the values of mean and std of the training x vector"""
+    """Standardize the values of testing_x depending on the values of mean and std of the training x vector
+
+    Args:
+        x_test (numpy.array): Testing x values
+        mean (numpy.array): Mean values
+        std (numpy.array): Standard deviation values
+
+    Returns:
+        numpy.array: Standarized X
+    """
+
     new_x = x_test.copy()
     new_x = (new_x - mean) / std
     return new_x
 
 
 def build_poly(x, degree):
-    """polynomial basis functions for input data x, for j=0 up to j=degree."""
+    """Polynomial basis functions for input data x, for j=0 up to j=degree.
+
+    Args:
+        x (numpy.array): Data for x
+        degree (int): Degree for the polynomial
+
+    Returns:
+        numpy.array: Generated Polynomial
+    """
+
     poly = np.ones((len(x), 1))
     for deg in range(1, degree+1):
         poly = np.c_[poly, np.power(x, deg)]
@@ -83,20 +102,36 @@ def build_poly(x, degree):
 
 
 def remove_invalid(x):
-    """Replaces the invalid values -999 by the mean of the entire column"""
+    """Replaces the invalid values -999 by the mean of the entire column
+
+    Args:
+        x (numpy.array): Values for x
+
+    Returns:
+        numpy.array: New values without invalid entries. 
+    """
+
     x_new = []
-    #first replace the values of -999 with nan
+    # first replace the values of -999 with nan
     x_mod = np.where(x == -999, np.nan, x)
-    #then obtain the mean of the column ignoring the nan values
+    # then obtain the mean of the column ignoring the nan values
     mean = np.nanmean(x_mod, axis=0)
-    #now we search the -999 in the original data and replace it with the mean of the column
+    # now we search the -999 in the original data and replace it with the mean of the column
     for i in range(x.shape[1]):
         x_new.append(np.where(x[:, i] == -999, mean[i], x[:, i]))
     return np.array(x_new).T
 
 
 def remove_outliers(x):
-    """Removes with IQR method, multiplying the IQR by 1.5"""
+    """Removes with IQR method, multiplying the IQR by 1.5
+
+    Args:
+        x (numpy.array): Values for x
+
+    Returns:
+        numpy.array: New values with cleaned data
+    """
+
     data_clean = np.zeros((x.shape))
     for i in range(x.shape[1]):
         col = x[:, i]
@@ -119,7 +154,23 @@ def remove_outliers(x):
 
 
 def prepare_data(x_train, x_test, flag_add_offset, flag_standardize, flag_remove_outliers, degree):
-    """Prepare data. Different manipulations can be specified with flags"""
+    """Prepare data. Different manipulations can be specified with flags
+
+    Args:
+        x_train (numpy.array): Values of x for training
+        x_test (numpy.array): Values of x for testing
+        flag_add_offset (bool): Flag for adding offset value
+        flag_standardize (bool): Flag for standardizing
+        flag_remove_outliers (bool): Flag for removing outliers
+        degree (int): Degree for polynomial base
+
+    Returns:
+        (tuple): tuple containing:
+
+            x_train (numpy.array): New values of x for training 
+            x_test (numpy.array): New values of x for testing
+    """
+
     # remove invalid values (-999)
     x_train = remove_invalid(x_train)
     x_test = remove_invalid(x_test)
@@ -147,9 +198,15 @@ def prepare_data(x_train, x_test, flag_add_offset, flag_standardize, flag_remove
 
 
 def predict_labels_logistic(weights, data):
-    """
-    Generates class predictions given weights, and a test data matrix.
+    """Generates class predictions given weights, and a test data matrix.
     Notice that for logistic regression the values are within 0 and 1, so decission limits are changed
+
+    Args:
+        weights (numpy.array): Weights to be used
+        data (numpy.array): Test data
+
+    Returns:
+        numpy.array: Predictions generated
     """
 
     y_pred = np.dot(data, weights)

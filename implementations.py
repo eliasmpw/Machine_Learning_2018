@@ -4,15 +4,20 @@ import csv
 import numpy as np
 
 # ----------------------- Least Squares using Gradient Descent ---------------------------
+
+
 def compute_mse(y, tx, w):
-    """Compute the loss by mse.
+    """Compute the loss by mse
+
     Args:
-        y: y values.
-        tx: transposed x values.
-        w: weight.
+        y (numpy.array): y values
+        tx (numpy.array): Transposed x values
+        w (numpy.array): Weight
+
     Returns:
-        The calculated MSE.
+        numpy.array: The calculated MSE
     """
+
     pred = np.squeeze(tx.dot(w))
     e = y - pred
     mse = e.dot(e) / (2 * len(e))
@@ -20,30 +25,37 @@ def compute_mse(y, tx, w):
 
 
 def compute_gradient(y, tx, w):
-    """Compute the gradient.
+    """Compute the gradient
+
     Args:
-        y: y values.
-        tx: transposed x values.
-        w: weight.
+        y (numpy.array): y values
+        tx (numpy.array): transposed x values
+        w (numpy.array): weight
+
     Returns:
-        The calculated gradient.
+        numpy.array: The calculated gradient.
     """
+
     err = y - tx.dot(w)
     gradient = -tx.T.dot(err) / len(err)
     return gradient
 
 
 def least_squares_GD(y, tx, initial_w, max_iters, gamma):
-    """Gradient descent algorithm.
+    """Gradient descent algorithm
+
     Args:
-        y: y values.
-        tx: transposed x values.
-        initial_w: initial weight.
-        max_iters: number of iterations.
-        gamma: the gamma to use.
+        y (numpy.array): y values
+        tx (numpy.array): transposed x values
+        initial_w (numpy.array): initial weight.
+        max_iters (int): number of iterations.
+        gamma(float): the gamma to use.
+
     Returns:
-        w: weight result.
-        loss: loss result.
+        (tuple): tuple containing:
+
+            w (numpy.array): Weight result
+            loss (numpy.array): Loss result
     """
     w = initial_w
     print_every = 50
@@ -58,26 +70,30 @@ def least_squares_GD(y, tx, initial_w, max_iters, gamma):
         loss = compute_mse(y, tx, w)
         cumulative_loss += loss
 
-        if (n_iter % print_every==0):
+        if (n_iter % print_every == 0):
             # print average loss for the last print_every iterations
-            print('iteration\t', str(n_iter), '\tloss: ', str(cumulative_loss / print_every))
-            cumulative_loss = 0;
+            print('iteration\t', str(n_iter), '\tloss: ',
+                  str(cumulative_loss / print_every))
+            cumulative_loss = 0
 
     return w, loss
 
 
-
 # ----------------------- Least Squares using Stochastic Gradient Descent ---------------------------
 def batch_iter(y, tx, batch_size, num_batches=1, shuffle=True):
-    """
-    Generate a minibatch iterator for a dataset.
+    """ Generate a minibatch iterator for a dataset.
     Takes as input two iterables (here the output desired values 'y' and the input data 'tx')
     Outputs an iterator which gives mini-batches of `batch_size` matching elements from `y` and `tx`.
     Data can be randomly shuffled to avoid ordering in the original data messing with the randomness of the minibatches.
-    Example of use :
-    for minibatch_y, minibatch_tx in batch_iter(y, tx, 32):
-        <DO-SOMETHING>
+
+    Args:
+        y (numpy.array): y values
+        tx (numpy.array): Transposed x values
+        batch_size (int): Size of the batch
+        num_batches (int, optional): Defaults to 1. Number of batches
+        shuffle (bool, optional): Defaults to True. Shuffle or not
     """
+
     data_size = len(y)
 
     if shuffle:
@@ -95,18 +111,22 @@ def batch_iter(y, tx, batch_size, num_batches=1, shuffle=True):
 
 
 def least_squares_SGD(y, tx, initial_w, max_iters, gamma):
+    """Stochastic descent algorithm
 
-    """Stochastic gradient descent.
     Args:
-        y: y values.
-        tx: transposed x values.
-        initial_w: initial weight.
-        max_iters: number of iterations.
-        gamma: the gamma to use.
+        y (numpy.array): y values
+        tx (numpy.array): transposed x values
+        initial_w (numpy.array): initial weight.
+        max_iters (int): number of iterations.
+        gamma(float): the gamma to use.
+
     Returns:
-        w: weight result.
-        loss: loss result.
+        (tuple): tuple containing:
+
+            w (numpy.array): Weight result
+            loss (numpy.array): Loss result
     """
+
     # Define parameters to store w and loss
     w = initial_w
     batch_size = 1
@@ -123,24 +143,30 @@ def least_squares_SGD(y, tx, initial_w, max_iters, gamma):
             loss = compute_mse(y, tx, w)
             cumulative_loss += loss
 
-        if (n_iter % print_every==0):
+        if (n_iter % print_every == 0):
             # print average loss for the last print_every iterations
-            print('iteration\t', str(n_iter), '\tloss: ', str(cumulative_loss / print_every))
-            cumulative_loss = 0;
+            print('iteration\t', str(n_iter), '\tloss: ',
+                  str(cumulative_loss / print_every))
+            cumulative_loss = 0
 
     return w, loss
 
 
 # ----------------------- Least Squares ---------------------------
 def least_squares(y, tx):
-    """calculate the least squares solution.
+    """Calculate the least squares solution.
+
     Args:
-        y: y values.
-        tx: transposed x values.
+        y (numpy.array): y values
+        tx (numpy.array): transposed x values
+
     Returns:
-        w: weight result.
-        loss: loss result.
+        (tuple): tuple containing:
+
+            w (numpy.array): Weight result
+            loss (numpy.array): Loss result
     """
+
     a = tx.T.dot(tx)
     b = tx.T.dot(y)
     w = np.linalg.solve(a, b)
@@ -148,17 +174,20 @@ def least_squares(y, tx):
     return w, loss
 
 
-
 # ----------------------- Ridge Regression ---------------------------
 def ridge_regression(y, tx, lambda_):
-    """implement ridge regression.
+    """Implement ridge regression.
+
     Args:
-        y: y values.
-        tx: transposed x values.
-        lambda_: the lambda value to use.
+        y (numpy.array): y values
+        tx (numpy.array): transposed x values
+        lambda_ (float): the lambda value to use.
+
     Returns:
-        w: weight result.
-        loss: loss result.
+        (tuple): tuple containing:
+
+            w (numpy.array): Weight result
+            loss (numpy.array): Loss result
     """
     aI = 2 * tx.shape[0] * lambda_ * np.identity(tx.shape[1])
     a = tx.T.dot(tx) + aI
@@ -168,31 +197,32 @@ def ridge_regression(y, tx, lambda_):
     return w, loss
 
 
-
 # ----------------------- Logistic Regression ---------------------------
 def sigmoid(t):
-    """Apply sigmoid function on t.
+    """Apply sigmoid function on t
+
     Args:
-        t: value to use.
+        t (numpy.array): Value to use
+
     Returns:
-        Calculated sigmoid
+        numpy.array: Calculated sigmoid
     """
+
     return 1.0 / (1.0 + np.exp(-t))
 
 
 def calculate_log_loss(y, tx, w):
-    """Compute the cost by negative log likelihood.
+    """Compute the cost by negative log likelihood
+
     Args:
-        y: y values.
-        tx: transposed x values.
-        w: weight.
+        y (numpy.array): y values
+        tx (numpy.array): Transposed x values
+        w (numpy.array): Weight
+
     Returns:
-        Calculated logistic loss
+        numpy.array: Calculated logistic loss
     """
-    # pred = sigmoid(tx.dot(w))
-    # z = (1 + y) / 2.0
-    # loss = - (z.T.dot(np.log(pred)) + (1 - z).T.dot(np.log(1 - pred))) / len(y)
-    # return np.squeeze(loss)
+
     xtw = (tx.dot(w))
     loss = np.sum(np.log(1 + np.exp(xtw))) - y.T.dot(xtw)
 
@@ -201,18 +231,15 @@ def calculate_log_loss(y, tx, w):
 
 def calculate_log_gradient(y, tx, w):
     """Compute the gradient of loss.
+
     Args:
-        y: y values.
-        tx: transposed x values.
-        w: weight.
+        y (numpy.array): y values
+        tx (numpy.array): Transposed x values
+        w (numpy.array): Weight
+
     Returns:
-        Calculated logistic gradient
+        numpy.array: Calculated logistic gradient
     """
-    # #variable change
-    # z = (1 + y) / 2
-    # pred = sigmoid(tx.dot(w))
-    # grad = tx.T.dot(pred - z)
-    # return grad
 
     sig = sigmoid(tx.dot(w))
     gradient = tx.T.dot(sig - y)
@@ -221,59 +248,62 @@ def calculate_log_gradient(y, tx, w):
 
 
 def logistic_regression(y, tx, initial_w, max_iters, gamma):
-    """implement logistic regression using full gradient descent.
+    """Implement logistic regression using full gradient descent
+
     Args:
-        y: y values.
-        tx: transposed x values.
-        initial_w: initial weight.
-        max_iters: number of iterations.
-        gamma: the gamma to use.
+        y (numpy.array): y values
+        tx (numpy.array): transposed x values
+        initial_w (numpy.array): initial weight.
+        max_iters (int): number of iterations.
+        gamma(float): the gamma to use.
+
     Returns:
-        w: weight result.
-        loss: loss result.
+        (tuple): tuple containing:
+
+            w (numpy.array): Weight result
+            loss (numpy.array): Loss result
     """
+
     print_every = 50
     cumulative_loss = 0
     w = initial_w
 
     # change labels from (-1, 1) to (0, 1)
-    y[np.where(y==-1)] = 0
+    y[np.where(y == -1)] = 0
 
     for n_iter in range(max_iters):
-        # compute loss and gradient
-        # grad = calculate_log_gradient(y, tx, w)
-        # loss = calculate_log_loss(y, tx, w)
-        # cumulative_loss += loss
-        # # update w by gradient descent
-        # w = w - gamma * grad
-
 
         gradient = calculate_log_gradient(y, tx, w)
         loss = calculate_log_loss(y, tx, w)
         cumulative_loss += loss
         w = w - (gamma * gradient)
 
-        if (n_iter % print_every==0):
+        if (n_iter % print_every == 0):
             # print average loss for the last print_every iterations
-            print('iteration\t', str(n_iter), '\tloss: ', str(cumulative_loss / print_every))
-            cumulative_loss = 0;
+            print('iteration\t', str(n_iter), '\tloss: ',
+                  str(cumulative_loss / print_every))
+            cumulative_loss = 0
 
     return w, loss
 
 
-
 # ----------------------- Regularized Logistic Regression ---------------------------
 def reg_logistic_regression(y, tx, initial_w, max_iters, gamma, lambda_):
-    """implement regularized logistic regression using full gradient descent.
+    """Implement regularized logistic regression using full gradient descent
+
     Args:
-        y: y values.
-        tx: transposed x values.
-        initial_w: initial weight.
-        max_iters: number of iterations.
-        gamma: the gamma to use.
+        y (numpy.array): y values
+        tx (numpy.array): transposed x values
+        initial_w (numpy.array): initial weight.
+        max_iters (int): number of iterations.
+        gamma(float): the gamma to use.
+        lambda(float): the lambda to use.
+
     Returns:
-        w: weight result.
-        loss: loss result.
+        (tuple): tuple containing:
+
+            w (numpy.array): Weight result
+            loss (numpy.array): Loss result
     """
 
     print_every = 50
@@ -281,23 +311,19 @@ def reg_logistic_regression(y, tx, initial_w, max_iters, gamma, lambda_):
     w = initial_w
 
     # change labels from (-1, 1) to (0, 1)
-    y[np.where(y1==-1)] = 0
-
+    y[np.where(y == -1)] = 0
 
     for n_iter in range(max_iters):
-        # compute loss and gradient
-        # grad = calculate_log_gradient(y, tx, w) + 2 * lambda_ * w
-        # loss = calculate_log_loss(y, tx, w) + lambda_ * np.squeeze(w.T.dot(w))
-        # cumulative_loss += loss
-        # # update w by gradient descent
-        # w = w - gamma * grad
-        loss = calculate_log_loss(y, tx, w) + ((lambda_ / 2) * (np.linalg.norm(w) ** 2)) / tx.shape[0]
-        grad = calculate_log_gradient(y, tx, w) + (lambda_ * np.sum(w)) / tx.shape[0]
+        loss = calculate_log_loss(
+            y, tx, w) + ((lambda_ / 2) * (np.linalg.norm(w) ** 2)) / tx.shape[0]
+        grad = calculate_log_gradient(
+            y, tx, w) + (lambda_ * np.sum(w)) / tx.shape[0]
         w = w - gamma * grad
         cumulative_loss += loss
 
-        if (n_iter % print_every==0):
+        if (n_iter % print_every == 0):
             # print average loss for the last print_every iterations
-            print('iteration\t', str(n_iter), '\tloss: ', str(cumulative_loss / print_every))
-            cumulative_loss = 0;
+            print('iteration\t', str(n_iter), '\tloss: ',
+                  str(cumulative_loss / print_every))
+            cumulative_loss = 0
     return w, loss

@@ -36,7 +36,7 @@ The Higgs boson is an elementary particle in the Standard Model of particle phys
     Type "help", "copyright", "credits" or "license" for more information.
     ```
 
-3. You need to install the **matplotlib** python package, by running the following command on the terminal:
+3. In order to generate the plots/graphics used on the report, you need to install the **matplotlib** python package, by running the following command on the terminal:
     ```
     pip install matplotlib
     ```
