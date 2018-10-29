@@ -281,7 +281,7 @@ def reg_logistic_regression(y, tx, initial_w, max_iters, gamma, lambda_):
     w = initial_w
 
     # change labels from (-1, 1) to (0, 1)
-    y[np.where(y1==-1)] = 0
+    y[np.where(y==-1)] = 0
 
 
     for n_iter in range(max_iters):
