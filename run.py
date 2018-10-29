@@ -76,7 +76,7 @@ flag_remove_outliers = True
 degree = 2
 
 # Choose training model to apply (see mapping above)
-flag_method = 3
+flag_method = 2
 
 # Set training parameters
 max_iters = 5000
