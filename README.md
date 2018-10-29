@@ -4,6 +4,7 @@ The Higgs boson is an elementary particle in the Standard Model of particle phys
 
 ## Overview of the project's code
 ```
+├── data                    <-Empty folder, copy .csv files here
 ├── Report
 │   ├── Machine_Learning_AEJ_HigssBossom.pdf    <-Report in .pdf format
 │   └── Machine_Learning_AEJ_HigssBossom.tex    <-Report in LaTeX format
@@ -54,6 +55,10 @@ The Higgs boson is an elementary particle in the Standard Model of particle phys
     ```
     unzip -a mlProject1.zip
     ```
+
+3. Download the "test.csv" and "train.csv" files from the following link: https://www.kaggle.com/c/epfml18-higgs/data
+
+4. Copy the downloaded files inside the **/data** folder.
 
 ## Running the best method and generating a predictions file
 
