@@ -3,7 +3,6 @@
 import csv
 import numpy as np
 from implementations import *
-import matplotlib.pyplot as plt
 
 
 def batch_iter(y, tx, batch_size, num_batches=1, shuffle=True):
