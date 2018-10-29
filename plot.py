@@ -4,11 +4,17 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 
-def cross_validation_visualization_lambda(lambds, mse_tr, mse_te):
-    """visualization the curves of mse_tr and mse_te."""
+def cross_validation_visualization_lambda(lambdas, mse_tr, mse_te):
+    """Visualization of the curves of mse_tr and mse_te for lambda.
 
-    plt.plot(lambds, mse_tr, marker="x", color='b', label='train error')
-    plt.plot(lambds, mse_te, marker=".", color='r', label='test error')
+    Args:
+        lambdas (numpy.array): Lambda values
+        mse_tr (numpy.array): MSE Training 
+        mse_te (numpy.array): MSE Test
+    """
+
+    plt.plot(lambdas, mse_tr, marker="x", color='b', label='train error')
+    plt.plot(lambdas, mse_te, marker=".", color='r', label='test error')
     plt.xlabel("lambda")
     plt.ylabel("rmse")
     plt.title("cross validation")
@@ -16,8 +22,15 @@ def cross_validation_visualization_lambda(lambds, mse_tr, mse_te):
     plt.grid(True)
     plt.savefig("cross_validation_lambda", bbox_inches="tight")
 
+
 def cross_validation_visualization_degree(degrees, mse_tr, mse_te):
-    """visualization the curves of mse_tr and mse_te."""
+    """Visualization of the curves of mse_tr and mse_te for the degrees.
+
+    Args:
+        degrees (numpy.array): Degree values
+        mse_tr (numpy.array): MSE Training 
+        mse_te (numpy.array): MSE Test
+    """
 
     plt.plot(degrees, mse_tr, marker="x", color='b', label='train error')
     plt.plot(degrees, mse_te, marker=".", color='r', label='test error')
