@@ -3,7 +3,6 @@
 import csv
 import numpy as np
 from implementations import *
-import matplotlib.pyplot as plt
 
 
 def standardize(x):
