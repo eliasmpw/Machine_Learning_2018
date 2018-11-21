@@ -8,3 +8,4 @@ test.csv
 train.csv
 sample-submission.csv
 *.csv
+*.zip
