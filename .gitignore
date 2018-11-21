@@ -1,5 +1,5 @@
-ENV/
-data/
+project2/ENV/
+project2/twitter-datasets/
 .idea/
 __pycache__/
 .ipynb_checkpoints/
