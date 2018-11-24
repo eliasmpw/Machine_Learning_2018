@@ -1,12 +1,12 @@
-project2/ENV/
+project2/__pycache__/
 project2/twitter-datasets/
 .idea/
 __pycache__/
 .ipynb_checkpoints/
+project2/.ipynb_checkpoints/
 .vscode/
-test.csv
-train.csv
-sample-submission.csv
 *.csv
 *.zip
 *.txt
+*.pkl
+*.npy
