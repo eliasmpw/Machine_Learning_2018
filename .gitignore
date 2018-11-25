@@ -7,3 +7,5 @@ sample-submission.csv
 __pycache__
 .ipynb_checkpoints
 .vscode/
+*.txt
+*.csv
