@@ -1,1 +1,6 @@
 fast text
+
+
+Instead of training our own word vectors, use those provided by stanford university (https://nlp.stanford.edu/projects/glove/). They have been trained on a much bigger dataset.
+
+Instead of averaging word vectors and doing logreg, use Convolutional neural networks (CNN): https://ieeexplore.ieee.org/stamp/stamp.jsp?arnumber=8244338
