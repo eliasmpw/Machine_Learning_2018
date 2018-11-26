@@ -1,0 +1,1 @@
+This folder contains the word embeddings that have been trained on the challenge dataset, using the code that was given to us.
