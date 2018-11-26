@@ -15,14 +15,14 @@ def main():
     print("using nmax =", nmax, ", cooc.max() =", cooc.max())
 
     print("initializing embeddings")
-    embedding_dim = 20
+    embedding_dim = 25
     xs = np.random.normal(size=(cooc.shape[0], embedding_dim))
     ys = np.random.normal(size=(cooc.shape[1], embedding_dim))
 
     eta = 0.001
     alpha = 3 / 4
 
-    epochs = 10
+    epochs = 25
 
     for epoch in range(epochs):
         print("epoch {}".format(epoch))
@@ -33,7 +33,7 @@ def main():
             scale = 2 * eta * fn * (logn - np.dot(x, y))
             xs[ix, :] += scale * y
             ys[jy, :] += scale * x
-    np.save('embeddings', xs)
+    np.save('embeddings25', xs)
 
 
 if __name__ == '__main__':
