@@ -52,6 +52,53 @@ def create_csv_submission(ids, y_pred, name):
             writer.writerow({'Id': int(r1), 'Prediction': int(r2)})
 
 
+def standardize(x):
+    """Standardize the original data set.
+
+    Args:
+        x (numpy.array): Array with data for x
+
+    Returns:
+        (tuple): tuple containing:
+
+            x (numpy.array): Standardized array
+            mean_x (numpy.array): Arithmetic Mean
+            std_x (numpy.array): Standard deviation
+    """
+
+    mean_x = np.mean(x, axis=0)
+    x = x - mean_x
+    std_x = np.std(x, axis=0)
+    x = x / std_x
+    return x, mean_x, std_x
+
+
+def standardize_test(x_test, mean, std):
+    """Standardize the values of testing_x depending on the values of mean and std of the training x vector
+
+    Args:
+        x_test (numpy.array): Testing x values
+        mean (numpy.array): Mean values
+        std (numpy.array): Standard deviation values
+
+    Returns:
+        numpy.array: Standarized X
+    """
+
+    new_x = x_test.copy()
+    new_x = (new_x - mean) / std
+    return new_x
+
+
 #### ----------------------- new methods --------------------####
 def get_accuracy(predictions, labels):
     return np.sum(predictions == labels) / len(labels)
+
+
+def shuffle(x_train, y_train):
+        np.random.seed(4133)
+        shuffle_indices = np.random.permutation(np.arange(len(y_train)))
+        return x_train[shuffle_indices, :], y_train[shuffle_indices]
+
+def add_offset(x):
+    return np.concatenate((np.ones((x.shape[0], 1)), x), axis = 1)
