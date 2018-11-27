@@ -10,7 +10,7 @@ contractions_dict = {
         DESCRIPTION:
         Dictionary used for expanding contractions
     """
-    
+    "didnt": "did not", "don\'t": "do not",
     "didn\'t": "did not", "don\'t": "do not",
     "ain't": "am not",
     "aren't": "are not",
