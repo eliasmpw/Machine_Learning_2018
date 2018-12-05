@@ -233,9 +233,9 @@ def split_number_text(tweet):
         if hasNumbers(r):
             temp = re.split('(\d+)', r)
             for j in temp:
-                if re.search('[a-zA-Z]', j) and len(j) >1 or j=='i' or j=='I':
+                if (re.search('[a-zA-Z]', j) and len(j) >1):
                     link.append(j)
-        elif len(r) > 1 or r=='i' or r=='I':
+        elif len(r) > 1 :
             link.append(r)
         elif r == '#' or r == '!' or r == "+":
             link.append(r)
