@@ -167,11 +167,13 @@ for e in range(epochs):
             accuracy = 0
             n = 0
             # compute accuracy on validation set
+            net.eval()
             for tweets, labels in iter(val_loader):
                 predictions = net.predict(tweets.long().cuda()).cpu()
                 accuracy += sum(predictions.data.numpy() == labels.data.numpy())
                 n += labels.data.numpy().size
-            
+            net.train()            
+
             print("Epoch {} / {}\t".format(e+1, epochs),
                   "Loss {:.4f}\t".format(running_loss / print_every),
                   "Validation accuracy {:.4f}\t".format(accuracy / n),
@@ -188,6 +190,7 @@ net = torch.load(network_file).cuda()
 
 
 # compute accuracy based on a part of the training data
+net.eval()
 for tweets, labels in iter(val_loader):
     predictions = net.predict(tweets.long().cuda()).cpu()
     accuracy += sum(predictions.data.numpy() == labels.data.numpy())
@@ -197,6 +200,7 @@ print("Accuracy on validation set: {:.4f}".format(accuracy / n))
 
 
 # Compute preditions and transform the labels to (-1, 1)
+net.eval()
 test_loader = utils.DataLoader(torch.from_numpy(x_test), batch_size, shuffle = False)
 submission_labels = np.zeros((0))
 for tweets in iter(test_loader):

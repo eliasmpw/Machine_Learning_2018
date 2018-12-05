@@ -9,6 +9,7 @@ class SimpleConvNet(nn.Module):
         
         n_channels = 128
         filter_size = 3
+        dropout_prob = 0.5
         
         embedding_dim = embeddings.shape[1]        
         self.embeddings = torch.nn.Embedding.from_pretrained(embeddings)
@@ -24,7 +25,7 @@ class SimpleConvNet(nn.Module):
         x = F.relu(x)
         x = F.max_pool1d(x, x.shape[2])
         x = x.squeeze(2)
-        x = F.dropout(x, 0)
+        x = F.dropout(x, dropout_prob)
         x = self.fc(x)
         x = F.sigmoid(x)
         return x.squeeze(1)
