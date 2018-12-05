@@ -101,7 +101,9 @@ with open(path_test) as f:
     for line in f:
         tweet = np.int32(np.zeros((longest)))
         wordcount = 0
-        for word in line.strip().split():
+        # filter out the IDs and first comma
+        line_bare = line[(line.index(",")+1):]
+        for word in line_bare.strip().split():
             index = vocab.get(word, -1);
             # skip words for which we have no embedding
             if(index != -1):
