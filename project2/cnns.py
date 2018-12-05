@@ -9,7 +9,6 @@ class SimpleConvNet(nn.Module):
         
         n_channels = 128
         filter_size = 3
-        dropout_prob = 0.5
         
         embedding_dim = embeddings.shape[1]        
         self.embeddings = torch.nn.Embedding.from_pretrained(embeddings)
@@ -17,7 +16,9 @@ class SimpleConvNet(nn.Module):
         self.conv = torch.nn.Conv2d(1, n_channels, kernel_size=(filter_size, embedding_dim))
         self.fc = nn.Linear(n_channels, 1)
 
-    def forward(self, x):   
+    def forward(self, x):
+        dropout_prob = 0.5
+ 
         x = self.embeddings(x)
         x = x.unsqueeze(1)
         x = self.conv(x)
