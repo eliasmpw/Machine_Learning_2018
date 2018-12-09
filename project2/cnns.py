@@ -16,6 +16,9 @@ class SimpleConvNet(nn.Module):
         self.conv = torch.nn.Conv2d(1, n_channels, kernel_size=(filter_size, embedding_dim))
         self.fc = nn.Linear(n_channels, 1)
 
+    def get_criterion(self):
+        return torch.nn.BCELoss(), torch.float
+
     def forward(self, x):
         dropout_prob = 0.5
  
@@ -28,7 +31,7 @@ class SimpleConvNet(nn.Module):
         x = x.squeeze(2)
         x = F.dropout(x, dropout_prob)
         x = self.fc(x)
-        x = F.sigmoid(x)
+        x = torch.sigmoid(x)
         return x.squeeze(1)
     
     def predict(self, x):
@@ -36,37 +39,38 @@ class SimpleConvNet(nn.Module):
         return pred
 
 
-class NGrams(nn.Module):
+
+class ClassificationNet(nn.Module):
     def __init__(self, embeddings):
         super().__init__()
         
-        n_channels = 128
-        kernel_sizes = [2, 3, 5]
+        n_channels = 256
+        filter_size = 3
         
         embedding_dim = embeddings.shape[1]        
         self.embeddings = torch.nn.Embedding.from_pretrained(embeddings)
         self.embeddings.weight.requires_grad=False
-        self.conv1 = torch.nn.Conv2d(1, n_channels, kernel_size=(kernel_sizes[0], embedding_dim))
-        self.conv2 = torch.nn.Conv2d(1, n_channels, kernel_size=(kernel_sizes[1], embedding_dim))
-        self.conv3 = torch.nn.Conv2d(1, n_channels, kernel_size=(kernel_sizes[2], embedding_dim))
-        self.fc = nn.Linear(3 * n_channels, 1)
+        self.conv = torch.nn.Conv2d(1, n_channels, kernel_size=(filter_size, embedding_dim))
+        self.fc = nn.Linear(n_channels, 2)
+
+    def get_criterion(self):
+        return torch.nn.CrossEntropyLoss(), torch.long
 
     def forward(self, x):
         dropout_prob = 0.5
  
         x = self.embeddings(x)
         x = x.unsqueeze(1)
-        conved_1 = F.relu(self.conv1(x).squeeze(3))
-        conved_2 = F.relu(self.conv2(x).squeeze(3))
-        conved_3 = F.relu(self.conv3(x).squeeze(3))
-        pooled_1 = F.max_pool1d(conved_1, conved_1.shape[2]).squeeze(2)
-        pooled_2 = F.max_pool1d(conved_2, conved_2.shape[2]).squeeze(2)
-        pooled_3 = F.max_pool1d(conved_3, conved_3.shape[2]).squeeze(2)
-        x = F.dropout(torch.cat((pooled_1, pooled_2, pooled_3), dim=1), dropout_prob)
+        x = self.conv(x)
+        x = x.squeeze(3)
+        x = F.relu(x)
+        x = F.max_pool1d(x, x.shape[2])
+        x = x.squeeze(2)
+        x = F.dropout(x, dropout_prob)
         x = self.fc(x)
-        x = F.sigmoid(x)
-        return x.squeeze(1)
+        return x
     
     def predict(self, x):
-        pred = torch.round(self.forward(x))
+        logits = self.forward(x)
+        _, pred = torch.max(F.softmax(logits, dim=1), 1)
         return pred
