@@ -165,14 +165,14 @@ class ComplexConvNet(torch.nn.Module):
         super().__init__()
         
         embedding_dim = embeddings.shape[1]  
-        n_channels = [8, 16, 64]
-        kernel_size = [(2, 1), (2, 1), (1, embedding_dim)] 
+        n_channels = [64, 64, 64]
+        kernel_size = [(2, embedding_dim), (2, n_channels[0]), (2, n_channels[1])] 
                     
         self.embeddings = torch.nn.Embedding.from_pretrained(embeddings)
         self.embeddings.weight.requires_grad=False
         self.conv1 = torch.nn.Conv2d(1, n_channels[0], kernel_size=kernel_size[0])
-        self.conv2 = torch.nn.Conv2d(n_channels[0], n_channels[1], kernel_size=kernel_size[1])
-        self.conv3 = torch.nn.Conv2d(n_channels[1], n_channels[2], kernel_size=kernel_size[2])
+        self.conv2 = torch.nn.Conv2d(1, n_channels[1], kernel_size=kernel_size[1])
+        self.conv3 = torch.nn.Conv2d(1, n_channels[2], kernel_size=kernel_size[2])
         self.fc = torch.nn.Linear(n_channels[2], 1)
 
     def get_criterion(self):
@@ -184,10 +184,61 @@ class ComplexConvNet(torch.nn.Module):
         x = self.embeddings(x)
         x = x.unsqueeze(1)
         x = F.relu(self.conv1(x))
+        x = x.squeeze(3)
+        x = x.transpose(1, 2)
+        x = x.unsqueeze(1)
         x = F.relu(self.conv2(x))
+        x = x.squeeze(3)
+        x = x.transpose(1, 2)
+        x = x.unsqueeze(1)
         x = F.relu(self.conv3(x))
         x = x.squeeze(3)
         x = F.relu(x)
+        x = F.max_pool1d(x, x.shape[2])
+        x = x.squeeze(2)
+        x = F.dropout(x, dropout_prob)
+        x = self.fc(x)
+        x = torch.sigmoid(x)
+        return x.squeeze(1)
+    
+    def predict(self, x):
+        pred = torch.round(self.forward(x))
+        return pred
+
+
+class MultipleConvNet(torch.nn.Module):
+    def __init__(self, embeddings):
+        super().__init__()
+        
+        embedding_dim = embeddings.shape[1]  
+        n_channels = [64, 64, 64]
+        kernel_size = [(2, embedding_dim), (2, 1), (2, 1)] 
+                    
+        self.embeddings = torch.nn.Embedding.from_pretrained(embeddings)
+        self.embeddings.weight.requires_grad=False
+        self.conv1 = torch.nn.Conv2d(1, n_channels[0], kernel_size=kernel_size[0])
+        self.conv2 = torch.nn.Conv2d(1, n_channels[1], kernel_size=kernel_size[1])
+        self.conv3 = torch.nn.Conv2d(1, n_channels[2], kernel_size=kernel_size[2])
+        self.fc = torch.nn.Linear(n_channels[2], 1)
+
+    def get_criterion(self):
+        return torch.nn.BCELoss(), torch.float
+
+    def forward(self, x):
+        dropout_prob = 0
+ 
+        x = self.embeddings(x)
+        x = x.unsqueeze(1)
+        x = F.relu(self.conv1(x))
+        x = x.squeeze(3)
+        x = F.max_pool1d(x, x.shape[2])
+        x = x.unsqueeze(1)
+        x = F.relu(self.conv2(x))
+        x = x.squeeze(3)
+        x = F.max_pool1d(x, x.shape[2])
+        x = x.unsqueeze(1)
+        x = F.relu(self.conv3(x))
+        x = x.squeeze(3)
         x = F.max_pool1d(x, x.shape[2])
         x = x.squeeze(2)
         x = F.dropout(x, dropout_prob)
