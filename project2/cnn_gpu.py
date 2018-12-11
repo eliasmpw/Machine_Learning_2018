@@ -22,11 +22,30 @@ path_test = 'test_data.txt'
 submission_file = 'cnn1_reduced_32.csv'
 network_file = 'network.pt'
 
-
-# load word embeddings
+# loads word embeddings
 embeddings = np.load(path_embeddings)
 # add line of zeroes to the embeddings for empty words
 embeddings = np.append(np.zeros((1, embeddings.shape[1])), embeddings, axis=0)
+
+# specify seed for random weight initialisation
+torch.backends.cudnn.deterministic = True
+torch.manual_seed(1234)
+
+# specify the network you want to use
+net = SimpleConvNet(torch.from_numpy(embeddings).float()).cuda()
+
+# decide how many training tweets to use for validation
+val_prop = 10000
+batch_size = 1024
+epochs = 5
+
+# defines after how many batches loss and accuracy are displayed
+print_every = 20
+
+# choose optimizer (Adam does fine most of the time)
+optimizer = torch.optim.Adam(net.parameters())
+
+
 # load vocabulary
 with open(path_vocab, 'rb') as f:
     vocab = pickle.load(f)
@@ -93,7 +112,6 @@ y_train = np.asarray(y)
 # Shuffle tweets
 x_train, y_train = shuffle(x_train, y_train)
 
-
 # We proceed process test tweets in the same way as the training tweets
 x = []
 
@@ -111,23 +129,11 @@ with open(path_test) as f:
                 wordcount += 1
         x.append(tweet)
 
-        # convert to numpy array
+# convert to numpy array
 x_test = np.asarray(x)
 
-
-# specify the network you want to use
-net = SimpleConvNet(torch.from_numpy(embeddings).float()).cuda()
-# decide how many training tweets to use for validation
-val_prop = 10000
-batch_size = 1024
-epochs = 5
-# defines after how many batches loss and accuracy are displayed
-print_every = 20
-# choose loss function
-criterion = torch.nn.BCELoss()
-# choose optimizer (Adam does fine most of the time)
-optimizer = torch.optim.Adam(net.parameters())
-
+# get loss criterion of the network and the target type it requires
+criterion, target_type = net.get_criterion()
 
 # cut validation data from training data.
 # convert numpy arrays to torch tensors
@@ -152,7 +158,7 @@ for e in range(epochs):
         steps += 1
         # converting to Variable is necessary in order to compute the gradient later
         inputs = Variable(tweets).cuda()
-        targets = Variable(labels).cuda()
+        targets = Variable(labels.to(target_type)).cuda()
         # set gradient to zero
         optimizer.zero_grad()
         # forward inputs through the net
@@ -162,7 +168,7 @@ for e in range(epochs):
         loss.backward()
         # update weights
         optimizer.step()
-        running_loss += loss.data[0]
+        running_loss += loss.item()
         
         if steps % print_every == 0:
             stop = time.time()
@@ -183,23 +189,20 @@ for e in range(epochs):
             running_loss = 0
             start = time.time()
 
-
 # Save the trained network
 torch.save(net.cpu(), network_file)
 
-# Load a saved network
-net = torch.load(network_file).cuda()
-
-
 # compute accuracy based on a part of the training data
 net.eval()
+net.cuda()
+accuracy = 0
+n = 0
 for tweets, labels in iter(val_loader):
     predictions = net.predict(tweets.long().cuda()).cpu()
     accuracy += sum(predictions.data.numpy() == labels.data.numpy())
     n += labels.data.numpy().size
             
 print("Accuracy on validation set: {:.4f}".format(accuracy / n))
-
 
 # Compute preditions and transform the labels to (-1, 1)
 net.eval()
