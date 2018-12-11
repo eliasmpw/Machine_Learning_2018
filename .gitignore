@@ -18,3 +18,9 @@ project2/data/pre_processed/tweets_pos_full_wstp.pickle
 project2/data/pre_processed/tweets_pos_full_wstp.txt
 project2/data/pre_processed/tweets_neg_full_wstp.txt
 project2/data/pre_processed/tweets_neg_full_wstp.pickle
+*.txt
+*.pickle
+*.pickle
+project2/scores_crowdAI.xlsx
+project2/data/pre_processed/tweets_pos_wstp.txt
+*.txt

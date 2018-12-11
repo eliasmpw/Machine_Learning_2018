@@ -144,6 +144,10 @@ def hasNumbers(inputString):
     return bool(re.search(r'\d', inputString))
 
 
+
+
+	
+
 def filter_digits(tweet):
     """
     DESCRIPTION: Replaces digits with tag <number>
@@ -164,7 +168,19 @@ def filter_digits(tweet):
             t.append(w)
     return (" ".join(t)).strip()
 
+	
 
+def one_space(tweet):
+    """
+    DESCRIPTION: Removes extra spaces between words, ensures only one space is left
+    INPUT:
+            tweet: a tweet as a python string
+    OUTPUT:
+            modified tweet, containing only one space between words
+            (e.g. "today is     friday" outputs "today is friday")
+    """
+    tweet = re.sub("\s\s+", " ", tweet)
+    return tweet
 
 def remove_words(tweet):
     """
@@ -177,6 +193,8 @@ def remove_words(tweet):
     """
 
     removal_list = ["user", "url", "number"]
+					
+
     word_list = tweet.split()
     tweet = ' '.join([i for i in word_list if i not in removal_list])
     return tweet
@@ -184,7 +202,7 @@ def remove_words(tweet):
 
 def replace_moreletters(tweet):
     """
-    DESCRIPTION: Replaces by 2 repeated letters when there are more than two repeated letters
+    DESCRIPTION: Replaces by 1 repeated letters when there are more than two repeated letters
     INPUT:
             tweet:  a string
     OUTPUT:
@@ -193,7 +211,7 @@ def replace_moreletters(tweet):
     """
 
     pattern = re.compile(r"(.)\1{1,}", re.DOTALL)
-    return pattern.sub(r"\1\1", tweet)
+    return pattern.sub(r"\1", tweet)
 
 
 def remove_punctuation(tweet):
