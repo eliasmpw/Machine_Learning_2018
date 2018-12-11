@@ -243,19 +243,6 @@ def split_number_text(tweet):
     return tweet
 
 
-def separate_hash(tweet):
-    """
-    DESCRIPTION: Separates hash symbol from words
-    INPUT:
-            tweet: a tweet as a python string
-    OUTPUT:
-            tweet with hash symbols and words separated
-            (e.g. "#hello" outputs "# hello")
-    """
-    tweet = " ".join(re.split('(\W#)', tweet))
-    return tweet
-
-
 def interpret_emoji(tweet):
     """
     DESCRIPTION: 
@@ -319,57 +306,6 @@ def interpret_emoji(tweet):
             t.append(w)
     return (" ".join(t)).strip()
 
-
-def replace_hashtag(tweet):
-    """
-    DESCRIPTION: Replaces hashtags (e.g. #iloveyou) by the tag "<hashtag>"
-    INPUT:
-            tweet: a tweet as a python string
-    OUTPUT:
-            modified tweet, replacing hashtags with the tag <hashtag>
-            (e.g. "today is friday #hapoy" outputs "today is friday <hashtag>")
-    """
-    sentence = []
-    line = tweet.split()
-    for w in line:
-        if "#" in w and len(w) > 1:
-            sentence.append("<hashtag>")
-        else:
-            sentence.append(w)
-    tweet = ' '.join(sentence)
-    return tweet
-
-
-def one_space(tweet):
-    """
-    DESCRIPTION: Removes extra spaces between words, ensures only one space is left
-    INPUT:
-            tweet: a tweet as a python string
-    OUTPUT:
-            modified tweet, containing only one space between words
-            (e.g. "today is     friday" outputs "today is friday")
-    """
-    tweet = re.sub("\s\s+", " ", tweet)
-    return tweet
-
-
-def hashtag_remove(tweet):
-    """
-    DESCRIPTION: Removes # of sentences
-    INPUT:
-            tweet: a tweet as a python string
-    OUTPUT:
-            modified tweet, replacing hashtags with a space
-    """
-    
-    sentence = []
-    words = tweet.split()
-    for j in words:
-        if "#" in j:
-            j = j.replace("#", "")
-            sentence.append(j)
-    tweet = ' '.join(sentence)
-    return tweet
 
 ##Code modified from https://stackoverflow.com/questions/19790188/expanding-english-language-contractions-in-python
 contractions_re = re.compile('(%s)' % '|'.join(contractions_dict.keys()))

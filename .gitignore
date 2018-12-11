@@ -7,6 +7,14 @@ project2/.ipynb_checkpoints/
 .vscode/
 *.csv
 *.zip
-*.txt
 *.pkl
 *.npy
+project2/data/train_pos_full.txt
+project2/data/train_neg_full.txt
+project2/data/train_neg.txt
+project2/data/train_pos.txt
+project2/data/test_data.txt
+project2/data/pre_processed/tweets_pos_full_wstp.pickle
+project2/data/pre_processed/tweets_pos_full_wstp.txt
+project2/data/pre_processed/tweets_neg_full_wstp.txt
+project2/data/pre_processed/tweets_neg_full_wstp.pickle
