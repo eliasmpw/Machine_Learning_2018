@@ -211,7 +211,7 @@ def replace_moreletters(tweet):
     """
 
     pattern = re.compile(r"(.)\1{1,}", re.DOTALL)
-    return pattern.sub(r"\1", tweet)
+    return pattern.sub(r"\1\1", tweet)
 
 
 def remove_punctuation(tweet):
