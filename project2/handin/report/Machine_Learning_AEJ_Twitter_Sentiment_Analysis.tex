@@ -81,9 +81,15 @@ Higher embedding dimensions seem to deliver better results. Pretrained GloVe out
 \end{table}
 
  \subsection{Measures against overfitting}
- We use L2 regularization for our network layerrs. In addition, wee can use dropout (TODO: explain dropout).
+ We use L2 regularization for our network layerrs. In addition, wee can use dropout (explain dropout here).
  
- TODO: add illustration of accuracy vs. loss, with and without dropout.
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\columnwidth]{overfitting}
+  \caption{Evolution of Loss and Validation Accuracy}
+  \vspace{-3mm}
+  \label{fig:Validation accuracy vs Loss}
+\end{figure}
  
  Dropout reduces the risk of overfitting, but in our case the tradeofff of having a less specific model is not worth it.
  
