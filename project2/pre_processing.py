@@ -210,8 +210,8 @@ def replace_moreletters(tweet):
             (e.g. "I am haaaaaapy" outputs "I am haapy")
     """
 
-    pattern = re.compile(r"(.)\1{1,}", re.DOTALL)
-    return pattern.sub(r"\1\1", tweet)
+    pattern = re.compile(r"(.)\1{3,}", re.DOTALL)
+    return pattern.sub(r"\1\1", tweet + "rep*")
 
 
 def remove_punctuation(tweet):
@@ -227,7 +227,7 @@ def remove_punctuation(tweet):
     temp = []
     name1 = tweet.split()
     for i in name1:
-        clean = re.split('[-:_*^<>/{}()<>",?&.$%@~!]', i)
+        clean = re.split('[]{}",.', i)
         tweet = " ".join(clean)
         temp.append(tweet)
     out = " ".join(temp)
