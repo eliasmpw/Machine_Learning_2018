@@ -131,45 +131,6 @@ contractions_dict = {
     "you've": "you have"
 }
 
-
-
-def hasNumbers(inputString):
-    """
-    DESCRIPTION: Returns true or false if it has numbers
-    INPUT:
-            inputString: a string
-    OUTPUT:
-            Boolean that says if it has a number
-    """
-    return bool(re.search(r'\d', inputString))
-
-
-
-
-	
-
-def filter_digits(tweet):
-    """
-    DESCRIPTION: Replaces digits with tag <number>
-    INPUT:
-            tweet:  a string
-    OUTPUT:
-            a tweet where a digit is replaced by the tag <number>
-            (e.g. "I laugh 1234 times" outputs "I laugh <number> times")
-    """
-
-    t = []
-    for w in tweet.split():
-        try:
-            num = re.sub('[,\.:%_\-\+\*\/\%\_]', '', w)
-            float(num)
-            t.append("<number>")
-        except:
-            t.append(w)
-    return (" ".join(t)).strip()
-
-	
-
 def one_space(tweet):
     """
     DESCRIPTION: Removes extra spaces between words, ensures only one space is left
@@ -181,24 +142,6 @@ def one_space(tweet):
     """
     tweet = re.sub("\s\s+", " ", tweet)
     return tweet
-
-def remove_words(tweet):
-    """
-    DESCRIPTION: filters repeated tags (user, url and number) from a tweet
-    INPUT:
-            tweet:  a string
-    OUTPUT:
-            a tag-filtered tweet as a python string
-            (e.g. "user believes today is friday number" outputs "believes today is friday")
-    """
-
-    removal_list = ["user", "url", "number"]
-					
-
-    word_list = tweet.split()
-    tweet = ' '.join([i for i in word_list if i not in removal_list])
-    return tweet
-
 
 def replace_moreletters(tweet):
     """
@@ -212,54 +155,6 @@ def replace_moreletters(tweet):
 
     pattern = re.compile(r"(.)\1{3,}", re.DOTALL)
     return pattern.sub(r"\1\1", tweet + "rep*")
-
-
-def remove_punctuation(tweet):
-    """
-    DESCRIPTION: Filters punctuation from a tweet
-    INPUT:
-            tweet: a string
-    OUTPUT:
-            punctuation-filtered tweet as a python string without hash, exclamation and apostrophe marks.
-            (e.g. "I .... feel down" outputs "I feel down")
-    """
-
-    temp = []
-    name1 = tweet.split()
-    for i in name1:
-        clean = re.split('[]{}",.', i)
-        tweet = " ".join(clean)
-        temp.append(tweet)
-    out = " ".join(temp)
-    return out
-
-
-
-
-def split_number_text(tweet):
-    """
-    DESCRIPTION: Splits numbers and characters in a word
-    INPUT:
-            tweet: a string
-    OUTPUT:
-            tweet with text and numbers split
-            (e.g. "123test55" outputs "123 test 55")
-    """
-    link = []
-    temp = tweet.split()
-    for r in temp:
-        if hasNumbers(r):
-            temp = re.split('(\d+)', r)
-            for j in temp:
-                if (re.search('[a-zA-Z]', j) and len(j) >1):
-                    link.append(j)
-        elif len(r) > 1 :
-            link.append(r)
-        elif r == '#' or r == '!' or r == "+":
-            link.append(r)
-    tweet = " ".join(link)
-    return tweet
-
 
 def interpret_emoji(tweet):
     """
@@ -276,9 +171,7 @@ def interpret_emoji(tweet):
     eyes = ["8", ":", "=", ";"]
     nose = ["'", "`", "-", r"\\"]
     smilefaces = []
-    lolfaces = []
     sadfaces = []
-    neutralfaces = []
 
     for e in eyes:
         for n in nose:
@@ -288,9 +181,6 @@ def interpret_emoji(tweet):
             for s in ["\(", "\[", "{", "(", "["]:
                 sadfaces.append(e + n + s)
                 sadfaces.append(e + s)
-            for s in ["\|", "\/", r"\\", "|"]:
-                neutralfaces.append(e + n + s)
-                neutralfaces.append(e + s)
             # reversed
             for s in ["\(", "\[", "{", "[", "("]:
                 smilefaces.append(s + n + e)
@@ -298,26 +188,15 @@ def interpret_emoji(tweet):
             for s in ["\)", "\]", "}", ")", "]"]:
                 sadfaces.append(s + n + e)
                 sadfaces.append(s + e)
-            for s in ["\|", "\/", r"\\", "|"]:
-                neutralfaces.append(s + n + e)
-                neutralfaces.append(s + e)
-            lolfaces.append(e + n + "p")
-            lolfaces.append(e + "p")
-
+         
     smilefaces = set(smilefaces)
-    lolfaces = set(lolfaces)
     sadfaces = set(sadfaces)
-    neutralfaces = set(neutralfaces)
     t = []
     for w in tweet.split():
         if (w in hearts):
             t.append("<heart>")
         elif (w in smilefaces):
             t.append("<smile>")
-        elif (w in lolfaces):
-            t.append("<lol>")
-        elif (w in neutralfaces):
-            t.append("<neutral>")
         elif (w in sadfaces):
             t.append("<sad>")
         else:
