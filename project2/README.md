@@ -102,9 +102,9 @@ The task of this competition is to predict if a tweet message used to contain a 
     ```bash
     python run.py
     ```
-    A new file called **"submission.csv"** will be generated, which contains the predictions.
+    A new file called **"submissionX.csv"** will be generated, which contains the predictions.
 
-3) The **"submission.csv"** file can be uploaded to [crowdAI](https://www.crowdai.org/challenges/epfl-ml-text-classification/submissions), where you can verify the obtained classification score.
+3) The **"submissionX.csv"** file can be uploaded to [crowdAI](https://www.crowdai.org/challenges/epfl-ml-text-classification/submissions), where you can verify the obtained classification score.
    If you used the `vocab_pretrained.pkl` and `embeddings200_pretrained.npy` files you will reproduce the best submission made by this group.
 
 ## Pre-processing
