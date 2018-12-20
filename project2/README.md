@@ -116,7 +116,7 @@ In order to pre-process the tweets, you should edit and run the **pre_processing
 
 3. Set Feature treatment methods
 
-    Inside the second cell you can modify the following values:
+    Inside the second cell you can modify the following variables:
 
     - **already_cleaned_neg** = True/False
 
@@ -128,22 +128,35 @@ In order to pre-process the tweets, you should edit and run the **pre_processing
 
     - **already_cleaned_test** = True/False
 
-    If you set them to False, and run the next cells in the notebook, they will be pre-processed again.
+    The previous variables will determine which of the files will be pre-processed. If you set them to False, and run the next cells in the notebook, they will be pre-processed again.
     The pre-processing will be skipped for the ones with a value of True.
+    If you want to try different combinations of the pre-processing steps you can change the follwing variables:
+    - **duplicates** = True
+    - **emojis** = False
+    - **punctuaction** = False
+    - **handle_number** = False
+    - **special_symbols** = True
+    - **moreLetters** = False
+    - **contractions** = False
+    - **clean_stopwords** = False
+    - **spelling** = False
+    - **lemmatize** = False
 
-6) Run the cells of the notebook
+    If you set them to True and run the next cells, the will be pre-processed depending on previous choise. Please keep in mind that if you set the spelling to true it will take a long time to finish the pre-processing (depending on the specifics of your machine, 6-8 hours).
+
+4. Run the cells of the notebook
 
     Now open the **Cell** menu and click on the option **Run All**, or manually run every cell.
 
-    You will see the results/outputs between cells, and in the `data/pre_processed/` path you will find the new pre-processed .txt files.
+    You will see the results/outputs between cells, and in the `data/pre_processed/` path you will find the new pre-processed .txt and .pkl files.
 
 ## Classification using Word-Vectors
 
-If you want to build your own vocabulary and embeddings and vocabulary, follow these instructions:
+If you want to build your own vocabulary and embeddings, follow these instructions:
 
 ### Generating Word Embeddings:
 
-Load the training tweets given in `pos_train.txt`, `neg_train.txt` (or a suitable subset depending on RAM requirements), and construct a a vocabulary list of words appearing at least 5 times. This is done running the following commands. Note that the provided `cooc.py` script can take a few minutes to run, and displays the number of tweets processed.
+Load the training tweets given in `pos_train.txt`, `neg_train.txt` (or a suitable subset depending on RAM requirements), and construct a vocabulary list of words appearing at least 5 times. This is done running the following commands. Note that the provided `cooc.py` script can take a few minutes to run, and displays the number of tweets processed.
 
 ```bash
 build_vocab.sh
@@ -152,7 +165,7 @@ python3 pickle_vocab.py
 python3 cooc.py
 ```
 
-Then you can to train GloVe word embeddings, that is to compute an embedding vector for wach word in the vocabulary.
+Then you can do train GloVe word embeddings, that is to compute an embedding vector for each word in the vocabulary.
 
 `glove_solution.py`
 
