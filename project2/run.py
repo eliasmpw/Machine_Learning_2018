@@ -4,8 +4,8 @@ import torch
 import torch.utils.data as utils
 from helpers import *
 
-path_embeddings = 'pretrained_glove/embeddings200_pretrained.npy'
-path_vocab = 'pretrained_glove/vocab_pretrained.pkl'
+path_embeddings = 'embeddings/embeddings200_pretrained.npy'
+path_vocab = 'embeddings/vocab_pretrained.pkl'
 path_test = 'data/test_data.txt'
 path_net = 'final_submission_v3.pt'
 submission_filename = 'best_submission.csv'
@@ -49,6 +49,7 @@ with open(path_test) as f:
 x_test = np.asarray(x)
 
 # Compute preditions
+print("Running prediction..")
 net.eval()
 batch_size = 1024
 # create a dataloader to iterate over the test data
