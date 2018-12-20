@@ -86,11 +86,17 @@ The task of this competition is to predict if a tweet message used to contain a 
 
 4. Move the downloaded `*.txt` files inside the **/data** folder.
 
-5. Download the pretrained vocabulary from [here](https://drive.google.com/open?id=1UCnuDxEICn8SBGxlEet7M8NCy32sLYvP), and the pretrained embeddings from [here](https://drive.google.com/open?id=14K8JSlsugyw2fIP4IbHoyKZWUHnonhT5).
+5. Download the pretrained vocabulary and embeddings from [here](https://drive.google.com/open?id=1FpduWD-qh3_8omOX5oi_Xf6isMMmwLl0).
+
+    Also unzip the `embeddings.zip` file.
+
+    ```bash
+    unzip -a embeddings.zip
+    ```
 
 6. Move the downloaded `vocab_pretrained.pkl` and `embeddings200_pretrained.npy` files inside the **/embeddings** folder.
 
-## Text Classifier - Running the prediction
+## Running the Prediction
 
 1. If your terminal is not in the location of the project files, change your directory to that location.
 
@@ -99,13 +105,16 @@ The task of this competition is to predict if a tweet message used to contain a 
     ```
 
 2. Run the run.py script in the terminal.
+
     ```bash
     python run.py
     ```
+
+    NOTE: If you are using your own vocabulary/embeddings, make sure the script is pointing to the correct filenames
+
     A new file called **"submissionX.csv"** will be generated, which contains the predictions.
 
 3) The **"submissionX.csv"** file can be uploaded to [crowdAI](https://www.crowdai.org/challenges/epfl-ml-text-classification/submissions), where you can verify the obtained classification score.
-   If you used the `vocab_pretrained.pkl` and `embeddings200_pretrained.npy` files you will reproduce the best submission made by this group.
 
 ## Pre-processing
 
@@ -182,7 +191,7 @@ This will output a `vocab.pkl` vocabulary file.
 
 ### Generate GloVe Embeddings
 
-For this you will need either your own `.pkl` file or the preprocessed one available [here](https://drive.google.com/open?id=1UCnuDxEICn8SBGxlEet7M8NCy32sLYvP).
+For this we have two options:
 
 #### Own Glove Embeddings
 
@@ -214,7 +223,97 @@ From this embedding matrix, we will extract the embeddings that we need for our 
     python glove_txt_to_npy.py
     ```
 
-This will output a `embeddings*.npy` file.
+This will output a `embeddings*.npy` file as well as a new vocab file `vocab_pretrained.pkl`, you should use both for running the prediction.
+
+## Train logistic regression
+
+For training the logistic regresion and creating a Logistic regresion generated submission file, please follow these instructions:
+
+1. Start Jupyter Notebook
+
+    Run this command:
+
+    ```bash
+    jupyter notebook
+    ```
+
+    This will launch a browser window, with a file explorer open.
+
+2. Open notebook
+
+    Navigate through the folders, and open the **Logistic_regression.ipynb** file.
+
+3. Check filenames and paths
+
+    Inside the second cell you should check if the paths are pointing to the correct files.
+
+4. Run the cells of the notebook
+
+    Now open the **Cell** menu and click on the option **Run All**, or manually run every cell.
+
+    You will see the results/outputs between cells, and in the `data/pre_processed/` path you will find the new pre-processed `.txt` and `.pkl` files.
+
+5. A new file called **"logreg_submission.csv"** will be generated, which contains the predictions.
+
+6. The **"logreg_submission.csv"** file can be uploaded to [crowdAI](https://www.crowdai.org/challenges/epfl-ml-text-classification/submissions), where you can verify the obtained classification score.
+
+## Run Convolutional Neural Nets in the python notebooks
+
+Here we have two options:
+
+### Run it locally
+
+1. Start Jupyter Notebook
+
+    Run this command:
+
+    ```bash
+    jupyter notebook
+    ```
+
+    This will launch a browser window, with a file explorer open.
+
+2. Open notebook
+
+    Navigate through the folders, and open the **CNN_CPU.ipynb** file.
+
+3. Check filenames and paths
+
+    Inside the second cell you should check if the paths are pointing to the correct files.
+
+4. Run the cells of the notebook
+
+    Now open the **Cell** menu and click on the option **Run All**, or manually run every cell. You will see the results/outputs between cells.
+
+5. A new file called **"submission_firstnet.csv"** will be generated, which contains the predictions.
+
+6. The **"submission_firstnet.csv"** file can be uploaded to [crowdAI](https://www.crowdai.org/challenges/epfl-ml-text-classification/submissions), where you can verify the obtained classification score.
+
+### Run it on [Google Colab](https://colab.research.google.com)
+
+Colaboratory is a research tool for machine learning education and research. It’s a Jupyter notebook environment that requires no setup to use, and allows you to use GPU from a virtual machine in Colab servers.
+
+1. Upload the notebook to your Google Drive
+
+    Login to Google Drive using a Google Account: https://drive.google.com
+
+    Upload the `CNN_Cuda.ipynb` file to your drive by clicking on the _New_ -> _File Upload_ option and selecting the file from your computer. You can also drag and drop the file to upload it. You will also need to upload the embeddings (`embeddings200_pretrained.npy`),vocabulary (`vocab_pretrained.pkl`) and data (`*.txt`)files.
+
+2. Check filenames and paths
+
+    Inside the seventh cell you should check if the paths are pointing to the correct files.
+
+3. Configure the Runtime to use GPU
+
+    Open the **Runtime** menu and click on **Change Runtime Type**. A popup will appear, where you can change the Hardware accelerator from CPU to GPU. Then click on the **Save** button.
+
+4. Run the cells of the notebook
+
+    Now open the **Runtime** menu and click on the option **Run All**, or manually run every cell. You will see the results/outputs between cells.
+
+5. A new file called **"submission_firstnet.csv"** will be generated in your Google Drive, which contains the predictions.
+
+6. The **"submission_firstnet.csv"** file can be uploaded to [crowdAI](https://www.crowdai.org/challenges/epfl-ml-text-classification/submissions), where you can verify the obtained classification score.
 
 ## Authors
 
