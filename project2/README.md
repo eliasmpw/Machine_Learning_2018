@@ -128,8 +128,8 @@ In order to pre-process the tweets, you should edit and run the **pre_processing
 
     - **already_cleaned_test** = True/False
 
-    The previous variables will determine which of the files will be pre-processed. If you set them to False, and run the next cells in the notebook, they will be pre-processed again.
-    The pre-processing will be skipped for the ones with a value of True.
+    The previous variables will determine which of the files will be pre-processed. If you set them to False, and run the next cells in the notebook, they will be pre-processed again. The pre-processing will be skipped for the ones with a value of True.
+    
     If you want to try different combinations of the pre-processing steps you can change the follwing variables:
     - **duplicates** = True
     - **emojis** = False
