@@ -2,6 +2,9 @@
 
 The task of this competition is to predict if a tweet message used to contain a positive :) or negative :( smiley, by considering only the remaining text.
 
+## Team submission ID on CrowdAI
+ID: 25279 - by Jonas Jäggi
+
 ## Overview of the project's code
 
 ```
@@ -11,16 +14,18 @@ The task of this competition is to predict if a tweet message used to contain a 
 │   ├── Machine_Learning_AEJ_Sentiment.pdf    <-Report in .pdf format
 │   └── Machine_Learning_AEJ_Sentiment.tex    <-Report in LaTeX format
 ├── build_vocab.sh          <-Creates a vocab.txt vocabulary from the .txt files
-├── cnn_gpu.py              <-Run the Convolutional neural network using GPU
+├── CNN_CPU.ipynb           <-Python notebook to run the Convolutional neural network locally
+├──CNN_Cuda.ipynb           <-Python notebook to run the Convolutional neural network on Google Colab
 ├── cnns.py                 <-Contains the Convolutional neuronal network methods
 ├── cooc_memory_friendly.py <-Memory friendly extraction of coocurrence from a .pickle file
 ├── cooc.py                 <-Coocurrence from a .pickle file
 ├── cut_vocab.sh            <-Cuts from a vocab.txt vocabulary file into a vocab_cut.txt
 ├── glove_solution.py         <-Generates embeddings from a vocabulary
 ├── helpers.py              <-General custom helper methods
+├── Logistic_regression.ipynb <-Python notebook to run a logistic regression prediction
 ├── logreg.py               <-Contains the logistic regression methods
 ├── pickle_vocab.py         <-Converts from a vocab_cut.txt file to a vocab.pkl file
-├── pre_processing.ipynb    <-Runs the pre-processing steps in the tweets inside the *.txt data files
+├── pre_processing.ipynb    <-Python notebook that runs the pre-processing steps on the *.txt data files
 ├── pre_processing.py       <-Helper methods for the pre-processing
 ├── run.py                  <-Runs the Convolutional neural network
 ├── README.md               <-The README file of the project
