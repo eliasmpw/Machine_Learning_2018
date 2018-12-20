@@ -209,9 +209,9 @@ From this embedding matrix, we will extract the embeddings that we need for our 
     ```bash
     unzip -a glove.twitter.27B.zip
     ```
-3. Modify the `txt_to_npy.py` so it points to the correct vocabulary file on line 11, then run the script:
+3. Modify the `glove_txt_to_npy.py` so it points to the correct vocabulary file on line 11, then run the script:
     ```bash
-    python txt_to_npy.py
+    python glove_txt_to_npy.py
     ```
 
 This will output a `embeddings*.npy` file.
