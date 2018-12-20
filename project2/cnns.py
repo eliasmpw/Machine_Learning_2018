@@ -3,14 +3,36 @@
 import torch
 import torch.nn.functional as F
 
-
-'''
-
-This file contains the implementation of the neural nets.
+'''This file contains the implementation of the neural nets.
 Every class has the same interface. The method they implement are described below.
+
+__init__
+    Initialize the net.
+    Params: embeddings: the embeddings as torch tensor
+            n_channels: Integer for chosing the number of channels
+            dropout_prob: Double in [0, 1] for chosing dropout probability.
+
+get_criterion
+    Since not all nets are compatible with all loss criterions, we let the net class decide on which criterion to use.
+    Some criterions demand other types, so the type of the labels it is expecting is also returned.
+    Returns: Torch.criterion
+
+forward
+    Forward features through the net. When features are given as variables, we can backpropagate through the net
+    and update the weights.
+    Params: input as torch Variable
+    Returns: The output of the last variable as torch tensor
+
+predict
+    Also forwards features through the net, but returns labels in (0, 1) for prediction.
+    Params: input as torch Variable
+    Returns: Labels for the minibatch as torch tensor with values (0, 1)
 '''
 
 
+'''
+Implementation of SimpleConvNet as described in the report.
+'''
 class SimpleConvNet(torch.nn.Module):
     def __init__(self, embeddings, n_channels=64, dropout_prob=0.0):
         super().__init__()
@@ -44,7 +66,9 @@ class SimpleConvNet(torch.nn.Module):
         return pred
 
 
-
+'''
+Implementation using classification as described in the report.
+'''
 class ClassificationNet(torch.nn.Module):
     def __init__(self, embeddings, n_channels=64, dropout_prob=0.0):
         super().__init__()
@@ -61,6 +85,8 @@ class ClassificationNet(torch.nn.Module):
         return torch.nn.CrossEntropyLoss(), torch.long
 
     def forward(self, x):
+        # CNNs layers are built for pictures, therefore
+        # we have to adapt the dimensions of our tensors sometimes.
         x = self.embeddings(x)
         x = x.unsqueeze(1)
         x = self.conv(x)
@@ -78,7 +104,9 @@ class ClassificationNet(torch.nn.Module):
         return pred
 
 
-
+'''
+Implementation of NGrams as described in the report
+'''
 class NGrams(torch.nn.Module):
     def __init__(self, embeddings, n_channels=64, dropout_prob=0.0):
         super().__init__()
@@ -94,6 +122,7 @@ class NGrams(torch.nn.Module):
         self.fc = torch.nn.Linear(3 * n_channels, 1)
 
     def get_criterion(self):
+        # Binary cross entropy loss
         return torch.nn.BCELoss(), torch.float
 
     def forward(self, x):
@@ -118,6 +147,9 @@ class NGrams(torch.nn.Module):
 
 '''
 An experimental net that is not included in the report
+
+It has only convolution filters of size 2, but applies multiple layers one after another.
+Therefore it could learn NGrams of all sizes (at least that was the hope...)
 '''
 class ComplexConvNet(torch.nn.Module):
     def __init__(self, embeddings, n_channels=64, dropout_prob=0.0):
