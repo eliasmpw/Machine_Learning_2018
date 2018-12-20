@@ -22,6 +22,7 @@ The task of this competition is to predict if a tweet message used to contain a 
 ├── pickle_vocab.py         <-Converts from a vocab_cut.txt file to a vocab.pkl file
 ├── pre_processing.ipynb    <-Runs the pre-processing steps in the tweets inside the *.txt data files
 ├── pre_processing.py       <-Helper methods for the pre-processing
+├── run.py                  <-Runs the Convolutional neural network
 ├── README.md               <-The README file of the project
 ```
 
@@ -97,9 +98,9 @@ The task of this competition is to predict if a tweet message used to contain a 
     cd {path_of_project_files}
     ```
 
-2. Run the cnn_gpu.py script in the terminal.
+2. Run the run.py script in the terminal.
     ```bash
-    python cnn_gpu.py
+    python run.py
     ```
     A new file called **"submission.csv"** will be generated, which contains the predictions.
 
