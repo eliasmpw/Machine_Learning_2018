@@ -14,7 +14,7 @@ def main():
     # use compressed sparce matrix instead of coo_matrix
     cooc = coo_matrix((vocab_size, vocab_size))
     counter = 1
-    for fn in ['pos_train.txt', 'neg_train.txt']:
+    for fn in ['data/train_pos_full.txt', 'data/train_neg_full.txt']:
         with open(fn) as f:
             for line in f:
                 tokens = [vocab.get(t, -1) for t in line.strip().split()]
