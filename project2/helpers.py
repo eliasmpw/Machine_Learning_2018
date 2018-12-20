@@ -3,6 +3,8 @@
 import csv
 import numpy as np
 import math
+import matplotlib
+import matplotlib.pyplot as plt
 
 #### ----------------- taken from project 1 implementations ----------------####
 def batch_iter(y, tx, batch_size, shuffle=True):
@@ -102,3 +104,17 @@ def shuffle(x_train, y_train):
 
 def add_offset(x):
     return np.concatenate((np.ones((x.shape[0], 1)), x), axis = 1)
+
+
+def plot_val_acc(stats):
+    fig, ax1 = plt.subplots()
+
+    ax2 = ax1.twinx()
+    ax1.plot(stats[:, 0], 'g-')
+    ax2.plot(stats[:, 1], 'b-')
+
+    ax1.set_xlabel('Sampling Steps')
+    ax1.set_ylabel('Loss', color='g')
+    ax2.set_ylabel('Accuracy', color='b')
+
+    plt.show()
